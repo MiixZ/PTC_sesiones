@@ -2,6 +2,12 @@
 
 """PROGRAMA CAJA DE SUPERMERCADO"""
 
+"""Realizar un programa para una caja de un supermercado que lea un precio desde el teclado y una
+cantidad entregada por el cliente (se supone que cantidad >= precio) y obtenga en la pantalla el
+numero mnimo de monedas de 1 euro, 50 centimos, 10 centimos y 1 centimo que se deben dar de
+cambio. Por ejemplo, si precio es 1.12 euros y cantidad es 5 euros, debe dar como resultado 3
+monedas de 1 euro, 1 moneda de 50 centimos, 3 monedas de 10 centimos y 8 monedas de 1
+centimo."""
 
 def calcularMonedasMinimas(cambio, valor_monedas):
     monedas = divmod(cambio, valor_monedas)[0]

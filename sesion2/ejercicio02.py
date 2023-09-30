@@ -2,6 +2,8 @@
 
 """DESVIACIÓN TÍPICA"""
 
+"""Dados tres números x1, x2, x3, calcular la desviación típica respecto a su media aritmética."""
+
 import math
 
 print("Introduzca el primer número:")

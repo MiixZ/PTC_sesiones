@@ -2,6 +2,10 @@
 
 """PRECIO VEHÍCULO"""
 
+"""Calcular precio de un vehículo suponiendo que tenemos que pedir como datos de entrada los
+siguientes: precio bruto del vehículo, porcentaje de ganancia del vendedor, IVA a aplicar. El precio
+base se calcula incrementando el precio bruto con el porcentaje de ganancia. El precio final será el
+precio base incrementado con el porcentaje de IVA."""
 
 def pedirDato(mensaje):
     print(mensaje)

@@ -2,6 +2,11 @@
 
 """ CALCULAR EL TIEMPO CONVENCIONAL DADOS VALORES ARBITRARIOS"""
 
+"""Realizar un programa que lea una cantidad de horas, minutos y segundos con valores arbitrarios,
+y los transforme en una expresion de tiempo convencional en la que los minutos y segundos dentro
+del rango [0,59]. Por ejemplo, dadas 10 horas, 119 minutos y 280 segundos, debera dar como
+resultado 12 horas, 3 minutos y 40 segundos."""
+
 print("Introduzca las horas:")
 horas = int(input())
 
