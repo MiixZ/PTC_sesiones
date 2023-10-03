@@ -21,20 +21,20 @@ precio_compra = float(input())
 print("Dinero entregado por el cliente:")
 dinero_entregado = float(input())
 
-cambio = dinero_entregado - precio_compra
+cambio = dinero_entregado*100 - precio_compra*100
 
-monedas1euro = calcularMonedasMinimas(cambio, 1)
+monedas1euro = calcularMonedasMinimas(cambio, 100)
 cambio = monedas1euro[1]
 
-monedas50cent = calcularMonedasMinimas(cambio, 0.5)
+monedas50cent = calcularMonedasMinimas(cambio, 50)
 cambio = monedas50cent[1]
 
-monedas10cent = calcularMonedasMinimas(cambio, 0.1)
+monedas10cent = calcularMonedasMinimas(cambio, 10)
 cambio = monedas10cent[1]
 
-monedas1cent = calcularMonedasMinimas(cambio, 0.01)
+monedas1cent = calcularMonedasMinimas(cambio, 1)
 
 print("Monedas de 1 euro: ", int(monedas1euro[0]))
 print("Monedas de 50 cent: ", int(monedas50cent[0]))
 print("Monedas de 10 cent: ", int(monedas10cent[0]))
-print("Monedas de 1 cent: ", int(monedas1cent[0])+1)
+print("Monedas de 1 cent: ", int(monedas1cent[0]))
