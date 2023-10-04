@@ -7,14 +7,12 @@ y los transforme en una expresion de tiempo convencional en la que los minutos y
 del rango [0,59]. Por ejemplo, dadas 10 horas, 119 minutos y 280 segundos, debera dar como
 resultado 12 horas, 3 minutos y 40 segundos."""
 
-print("Introduzca las horas:")
-horas = int(input())
+"Pedimos los datos de entrada"
+horas = int(input("Introduzca las horas:"))
 
-print("Introduzca los minutos:")
-minutos = int(input())
+minutos = int(input("Introduzca los minutos:"))
 
-print("Introduzca los segundos:")
-segundos = int(input())
+segundos = int(input("Introduzca los segundos:"))
 
 """Divmod devuelve una tupla con el cociente y el resto de la división."""
 

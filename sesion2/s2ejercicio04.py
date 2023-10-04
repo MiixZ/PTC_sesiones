@@ -15,14 +15,14 @@ def calcularMonedasMinimas(cambio, valor_monedas):
     return monedas, cambio_restante
 
 
-print("Precio compra:")
-precio_compra = float(input())
+"""Pedimos los datos de entrada"""
+precio_compra = float(input("Precio compra: "))
+dinero_entregado = float(input("Dinero entregado por el cliente: "))
 
-print("Dinero entregado por el cliente:")
-dinero_entregado = float(input())
-
+"Calculamos cuánto debemos devolver."
 cambio = dinero_entregado*100 - precio_compra*100
 
+"Calculamos las monedas individualmente."
 monedas1euro = calcularMonedasMinimas(cambio, 100)
 cambio = monedas1euro[1]
 

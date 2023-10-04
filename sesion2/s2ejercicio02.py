@@ -6,17 +6,15 @@
 
 import math
 
-print("Introduzca el primer número:")
-numero1 = float(input())
+"Pedimos los números"
+numero1 = float(input("Introduzca el primer número:"))
 
-print("Introduzca el segundo número:")
-numero2 = float(input())
+numero2 = float(input("Introduzca el segundo número:"))
 
-print("Introduzca el tercer número:")
-numero3 = float(input())
+numero3 = float(input("Introduzca el tercer número:"))
 
+"Cálculo de la desviación típica"
 media = (numero1 + numero2 + numero3) / 3
-
 desviacion_tipica = math.sqrt(((numero1 - media) ** 2 + (numero2 - media) ** 2 + (numero3 - media) ** 2) / 3)
 
-print("La desviación típica es: ", desviacion_tipica)
+print(f"La desviación típica es: {desviacion_tipica:.2f}")
