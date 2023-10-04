@@ -16,4 +16,6 @@ print("Introduzca el cateto 2.")
 
 cat2 = float(input())
 
-print("La hipotenusa es: ", math.sqrt(cat1**2 + cat2**2))
+hipotenusa = math.sqrt(cat1**2 + cat2**2)
+
+print(f"La hipotenusa es: {hipotenusa:.2f}")
