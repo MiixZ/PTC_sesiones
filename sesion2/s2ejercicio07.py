@@ -5,18 +5,17 @@ que muestre por pantalla como sería el nombre completo en una sola línea. Tamb
 nombre completo pero al revés. Finalmente volver a descomponer el nombre completo en sus tres
 componentes y mostrarlos por pantalla."""
 
-print("Introduzca el nombre:")
-nombre = input()
+nombre = input("Introduzca el nombre:")
 
-print("Introduzca el primer apellido:")
-apellido1 = input()
+apellido1 = input("Introduzca el primer apellido:")
 
-print("Introduzca el segundo apellido:")
-apellido2 = input()
+apellido2 = input("Introduzca el segundo apellido:")
 
+"""Concateno el nombre y los apellidos para el nombre completo"""
 nombre_completo = nombre + " " + apellido1 + " " + apellido2
 print("El nombre completo es: ", nombre_completo)
 
+"""Concateno el nombre y los apellidos para el nombre completo al revés"""
 nombre_completo_reves = apellido2 + " " + apellido1 + " " + nombre
 print("El nombre completo al revés es: ", nombre_completo_reves)
 
