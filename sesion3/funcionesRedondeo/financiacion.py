@@ -45,11 +45,11 @@ def calcularCapitalAnual(capitalInicial, interes):
     return redondear(capitalInicial + capitalInicial * interes / 100, 2)
 
 def redondearConDecimal(numero, decimales):
-    return float(Decimal(numero).quantize(decimal.Decimal('0.' + '0' * decimales)))
+    return Decimal(numero).quantize(decimal.Decimal('0.' + '0' * decimales))
 
 def calcularCapitalAnual2(capitalInicial, interes):
     """Calcula el capital anual de un capital inicial y un interés.
     capitalInicial: float en euros con dos decimales
     interes: float en tanto por cierto con dos decimales
     return: float"""
-    return redondearConDecimal(capitalInicial + capitalInicial * interes / 100, 2)
+    return redondearConDecimal(Decimal(capitalInicial) + Decimal(capitalInicial) * Decimal(interes) / 100, 2)
