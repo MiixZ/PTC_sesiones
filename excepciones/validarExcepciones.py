@@ -35,7 +35,7 @@ while entradasCorrectas < entradasCorrec_a_leer:
         assert validarMultiplo3y7(valor), f"Debe ser múltiplo de 3 y 7 y {valor} no lo es"
         print(f"La entrada es {valor} y es correcta")
         entradasCorrectas += 1
-    except ValueError:
+    except ValueError:  # Salta cuando se introduce la entrada int(entrada). No es un entero.
         print(f"Debe introducir un número entero positivo y su entrada fue: {entrada}")
         entradasIncorrectas += 1
     except AssertionError as error:  # El error es la cadena de caracteres en el assert.
