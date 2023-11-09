@@ -6,3 +6,12 @@ Variación absoluta = Población 2017 – Población 2016
 Variación relativa = (Población 2017 – Población 2016) * 100
                         ----------------------------------------
 """
+
+import csv
+import bs4
+import numpy as np
+import matplotlib as mpl
+# Hay que usar diccionarios y numpy arrays. Prohibido
+# usar pandas y dataframe.
+
+# Funciones
