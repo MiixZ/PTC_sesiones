@@ -11,7 +11,7 @@ def round2(numero):
     return round(numero, 2)
 
 
-def limpiar_csv(fichero, fichero_nuevo):
+def limpiar_csv(fichero, fichero_nuevo, cabecera):
     """
     Limpia un fichero CSV de datos no útiles.
     :param fichero: Fichero CSV a limpiar.
@@ -25,8 +25,6 @@ def limpiar_csv(fichero, fichero_nuevo):
     ultimo = cadena_pob.find("Notas")
 
     cadena_final = cadena_pob[primero:ultimo]
-
-    cabecera = "Provincia;H2017;H2016;H2015;M2017;M2016;M2015"
 
     # Creamos el fichero final.
     fichero_final = open(fichero_nuevo, "w", encoding="utf-8")
@@ -46,7 +44,8 @@ def leer_fichero(fichero):
             print(reg)
 
 
-cadena_deseada = limpiar_csv('entradas/poblacionProvinciasHM2010-17.csv', "salidas/poblacionProvinciasHM2010-17.csv")
+cabecera = "Provincia;T2017;T2016;T2015;T2014;T2013;T2012;T2011;T2010"
+cadena_deseada = limpiar_csv('entradas/poblacionProvinciasHM2010-17.csv',
+                            "salidas/poblacionProvinciasHM2010-17.csv",
+                            cabecera)
 leer_fichero('salidas/poblacionProvinciasHM2010-17.csv')
-
-print(cadena_deseada)
