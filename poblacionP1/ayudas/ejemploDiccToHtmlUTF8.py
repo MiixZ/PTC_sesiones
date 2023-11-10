@@ -80,7 +80,7 @@ paginaPob+= """<p><table>
 <tr>"""
 
 for nomColumna in cabecera:
-    paginaPob+="<th>%s</th>" % (nomColumna)
+    paginaPob+="<th>%s</th>" % nomColumna
 
 paginaPob+="</tr>"
 
@@ -91,7 +91,7 @@ for comunidad, habitantes in sorted(poblacion.items()):
         paginaPob+="<td>%d</td>" % (habitantesAnio)
     paginaPob+="</tr>"
 
-        
+
 
 paginaPob+="</table></p></body></html>"
 

@@ -2,6 +2,18 @@
 
 import csv
 
+CABECERA_HTML = """
+<!DOCTYPE html><html><head><title>Ejemplo tabla</title>
+<link rel="stylesheet" href="estilo.css"> <meta charset="utf8"></head>
+<body>
+"""
+
+PIE_HTML = """
+</body>
+</html>
+"""
+
+
 def round2(numero):
     """
     Redondea un número a dos decimales.
@@ -14,6 +26,8 @@ def round2(numero):
 def limpiar_csv(fichero, fichero_nuevo, cabecera):
     """
     Limpia un fichero CSV de datos no útiles.
+    :param cabecera: Cabecera del fichero CSV.
+    :param fichero_nuevo: Fichero CSV nuevo.
     :param fichero: Fichero CSV a limpiar.
     :return: None
     """
@@ -42,10 +56,3 @@ def leer_fichero(fichero):
         reader = csv.DictReader(f, delimiter=';')
         for reg in reader:
             print(reg)
-
-
-cabecera = "Provincia;T2017;T2016;T2015;T2014;T2013;T2012;T2011;T2010"
-cadena_deseada = limpiar_csv('entradas/poblacionProvinciasHM2010-17.csv',
-                            "salidas/poblacionProvinciasHM2010-17.csv",
-                            cabecera)
-leer_fichero('salidas/poblacionProvinciasHM2010-17.csv')
