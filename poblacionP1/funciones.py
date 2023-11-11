@@ -2,6 +2,7 @@
 
 import csv
 from bs4 import BeautifulSoup
+import numpy as np
 
 CABECERA_HTML = """
 <!DOCTYPE html><html><head><title>Ejemplo tabla</title>
@@ -81,6 +82,34 @@ def dict_fichero_csv(fichero):
     return dict_r
 
 
+def calcular_total_por_comunidad(dict_provincias, dict_datos, n_years, datos_utiles):
+    """
+    Dado el diccionario de comunidades, provincias y los datos, calcular el total de cada comunidad autónoma.
+    :param dict_provincias: Diccioanrio de provincias.
+    :param dict_datos:  Diccionario con los datos de las provincias en cada año.
+    :return: Un numpy array con los datos de todos los años extraidos.
+    """
+    dict_result = {}
+    z = 0
+    for a_dict in dict_datos:
+        cod_comunidad_autonoma_actual = dict_provincias[a_dict['Provincia'][:2]]['CODAUTO']
+        temp = np.zeros(n_years - 1)
+        for i in range(1, len(a_dict)):
+            if a_dict[datos_utiles[i]] != '':
+                temp[i-1] = round(float(a_dict[datos_utiles[i]]), 2)
+
+        if cod_comunidad_autonoma_actual == '08' or cod_comunidad_autonoma_actual == '10':
+            print(z)
+            z += 1
+
+        if cod_comunidad_autonoma_actual in dict_result:
+            dict_result[cod_comunidad_autonoma_actual] += temp
+        else:
+            dict_result[cod_comunidad_autonoma_actual] = temp
+
+    return dict_result
+
+
 def devolver_parte_provincia(provincias):
     provincias2 = {}
 
@@ -94,7 +123,7 @@ def devolver_parte_provincia(provincias):
         provincias2[CPRO] = {
             'CCAA': CCAA,
             'CODAUTO': CODAUTO,
-            'PRO': nombre_provincia
+            'PRO': (CPRO + " " + nombre_provincia)
         }
 
     return provincias2

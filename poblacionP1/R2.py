@@ -38,8 +38,8 @@ def salida_html_R2(fichero, html_crear):
     dict_r = lc.dict_fichero_csv(fichero)
     p_poblacion = ""
 
-    fila_1 = dict_r.__next__()
-    datos_utiles = [columna for columna in fila_1.keys() if columna != 'none']
+    fila_1 = dict_r.__next__()  # Saltamos la primera fila (datos innecesarios).
+    datos_utiles = [columna for columna in fila_1.keys() if columna != 'none']  # Cogemos los años.
     n_datos = len(datos_utiles)
     n_years = n_datos - 1  # 2017 a 2010
 
@@ -69,16 +69,18 @@ def salida_html_R2(fichero, html_crear):
 
         dict_r.__next__()  # Saltamos la primera fila (años en el csv).
 
-        # Cogemos el diccionario de las comunidades autónomas.
-        comunidades = lc.leer_comunidades('./entradasUTF8/comunidadesAutonomas.htm')
+        # Cogemos el diccionario de las comunidades autónomas y las provincias.
+        comunidades_autonomas = lc.leer_comunidades('./entradasUTF8/comunidadesAutonomas.htm')
+        provincias_ = lc.leer_provincias('./entradasUTF8/comunidadAutonoma-Provincia.htm')
+        dict_resultados = lc.calcular_total_por_comunidad(provincias_, dict_r, n_years, datos_utiles)
 
-        for cod_comunidad, comunidad in comunidades.items():
+        for cod_comunidad, comunidad in comunidades_autonomas.items():
             # Añadimos las columna de las provincias.
+
             p_poblacion += "<tr>\n"
             p_poblacion += "<td><strong>%s<strong></td>\n" % (cod_comunidad + comunidad)
-            for i in range(1, n_years):
-                variacion_absoluta = 1
-                # Añadimos el cálculo.
+            for i in range(0, n_years - 1):
+                variacion_absoluta = dict_resultados[cod_comunidad.strip()][i]
                 p_poblacion += "<td>%s</td>\n" % locale.format_string('%.2f', variacion_absoluta, grouping=True)
             p_poblacion += "</tr>\n"
 
@@ -108,17 +110,14 @@ comunidades = lc.leer_comunidades('./entradasUTF8/comunidadesAutonomas.htm')
 """
     PARA LEER EL DICCIONARIO DE COMUNIDADES
 for cod_comunidad, comunidad in comunidades.items():
-    print(cod_comunidad, comunidad)
+    print(cod_comunidad, comunidad['CCAA'], comunidad['cantidad'])
 """
 
 # Leemos la lista de provincias.
 provincias = lc.leer_provincias('./entradasUTF8/comunidadAutonoma-Provincia.htm')
 
-"""
-    PARA LEER EL DICCIONARIO DE PROVINCIAS
-for cod_provincia, datos_provincia in provincias.items():
-    print(cod_provincia, datos_provincia['PRO'], datos_provincia['CODAUTO'], datos_provincia['CCAA'])
-"""
+"""for cod_provincia, datos_provincia in provincias.items():
+    print(cod_provincia, datos_provincia['PRO'], datos_provincia['CODAUTO'], datos_provincia['CCAA'])"""
 
 lc.limpiar_csv('./entradas/poblacionProvinciasHM2010-17.csv',
                './salidas/r2.csv',
