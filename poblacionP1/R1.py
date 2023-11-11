@@ -118,7 +118,7 @@ def variacion_relativa(anio_mayor, anio_menor):
 cabecera = "Provincia;2017;2016;2015;2014;2013;2012;2011;2010"
 lc.limpiar_csv('entradas/poblacionProvinciasHM2010-17.csv',
                "salidas/poblacionProvinciasHM2010-17.csv",
-               cabecera)
+               cabecera, "Total", "Notas")
 lc.leer_fichero('salidas/poblacionProvinciasHM2010-17.csv')
 
 salida_html_R1('salidas/poblacionProvinciasHM2010-17.csv',
