@@ -70,6 +70,17 @@ def leer_comunidades(fichero):
     return comunidades
 
 
+def dict_fichero_csv(fichero):
+    """
+    Lee un fichero CSV.
+    :param fichero: Fichero CSV a leer.
+    :return: Diccionario con los datos del fichero CSV.
+    """
+    f = open(fichero, 'r', encoding='utf-8')
+    dict_r = csv.DictReader(f, delimiter=';')
+    return dict_r
+
+
 def devolver_parte_provincia(provincias):
     provincias2 = {}
 

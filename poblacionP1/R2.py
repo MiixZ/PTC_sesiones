@@ -35,8 +35,7 @@ def salida_html_R2(fichero, html_crear):
     :return: None
     """
     # Leer el fichero CSV.
-    f = open(fichero, encoding='utf-8')
-    dict_r = csv.DictReader(f, delimiter=';')
+    dict_r = lc.dict_fichero_csv(fichero)
     p_poblacion = ""
 
     fila_1 = dict_r.__next__()
