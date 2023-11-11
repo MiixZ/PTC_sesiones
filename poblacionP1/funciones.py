@@ -72,7 +72,6 @@ def leer_comunidades(fichero):
 
 def devolver_parte_provincia(provincias):
     provincias2 = {}
-    print(len(provincias))
 
     for i in range(0, len(provincias), 4):
         CODAUTO = provincias[i].get_text()
