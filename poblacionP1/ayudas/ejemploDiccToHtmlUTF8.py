@@ -42,19 +42,19 @@ fileTable.write(tabla1)
 fileTable.close()
 print("Generada tabla html ejemploTabla1.html")
 
+fileEstilo = open("estilo.css", "w", encoding="utf8")
 
-fileEstilo=open("estilo.css","w", encoding="utf8")
-
-estilo="""  table, th, td {
+estilo = """  table, th, td {
                 border-collapse: collapse;    
                 border:1px solid black;
                 font-family: Arial, Helvetica, sans-serif;
                 padding: 8px;
-                
+
             }  """
 
 fileEstilo.write(estilo)
 fileEstilo.close()
+
 
 
 
