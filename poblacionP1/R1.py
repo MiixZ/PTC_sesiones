@@ -12,7 +12,7 @@ import bs4
 import numpy as np
 import matplotlib as mpl
 import locale
-import libreria_comun as lc
+import funciones as lc
 
 locale.setlocale(locale.LC_ALL, '')
 
@@ -34,7 +34,6 @@ def salida_html_R1(fichero, html_crear):
     :return: None
     """
     # Leer el fichero CSV.
-    # with open(fichero, encoding='utf-8') as f:
     f = open(fichero, encoding='utf-8')
     dict_r = csv.DictReader(f, delimiter=';')
     p_poblacion = ""
