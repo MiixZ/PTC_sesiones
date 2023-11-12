@@ -85,6 +85,8 @@ def dict_fichero_csv(fichero):
 def calcular_total_por_comunidad(dict_provincias, dict_datos, n_years, datos_utiles):
     """
     Dado el diccionario de comunidades, provincias y los datos, calcular el total de cada comunidad autónoma.
+    :param n_years: Número de años (total + hombres + mujeres)
+    :param datos_utiles: Mismos datos que en el fichero CSV.
     :param dict_provincias: Diccioanrio de provincias.
     :param dict_datos:  Diccionario con los datos de las provincias en cada año.
     :return: Un numpy array con los datos de todos los años extraidos.
@@ -97,10 +99,6 @@ def calcular_total_por_comunidad(dict_provincias, dict_datos, n_years, datos_uti
         for i in range(1, len(a_dict)):
             if a_dict[datos_utiles[i]] != '':
                 temp[i-1] = round(float(a_dict[datos_utiles[i]]), 2)
-
-        if cod_comunidad_autonoma_actual == '08' or cod_comunidad_autonoma_actual == '10':
-            print(z)
-            z += 1
 
         if cod_comunidad_autonoma_actual in dict_result:
             dict_result[cod_comunidad_autonoma_actual] += temp

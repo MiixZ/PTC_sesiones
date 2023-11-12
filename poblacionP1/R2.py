@@ -37,11 +37,11 @@ def salida_html_R2(fichero, html_crear):
     # Leer el fichero CSV.
     dict_r = lc.dict_fichero_csv(fichero)
     p_poblacion = ""
+    fila_1 = dict_r.__next__()  # Saltamos la primera fila (datos del total nacional que usamos para coger las cabeceras).
 
-    fila_1 = dict_r.__next__()  # Saltamos la primera fila (datos innecesarios).
     datos_utiles = [columna for columna in fila_1.keys() if columna != 'none']  # Cogemos los años.
     n_datos = len(datos_utiles)
-    n_years = n_datos - 1  # 2017 a 2010
+    n_years = n_datos - 1  # 2017 a 2010 menos la columna "Provincias".
 
     # Crear el fichero HTML.
     with open(html_crear, 'w', encoding='utf-8') as html:
@@ -67,8 +67,6 @@ def salida_html_R2(fichero, html_crear):
             p_poblacion += "<th>%s</th>\n" % datos_utiles[i]
         p_poblacion += "</tr>\n"
 
-        dict_r.__next__()  # Saltamos la primera fila (años en el csv).
-
         # Cogemos el diccionario de las comunidades autónomas y las provincias.
         comunidades_autonomas = lc.leer_comunidades('./entradasUTF8/comunidadesAutonomas.htm')
         provincias_ = lc.leer_provincias('./entradasUTF8/comunidadAutonoma-Provincia.htm')
@@ -76,7 +74,6 @@ def salida_html_R2(fichero, html_crear):
 
         for cod_comunidad, comunidad in comunidades_autonomas.items():
             # Añadimos las columna de las provincias.
-
             p_poblacion += "<tr>\n"
             p_poblacion += "<td><strong>%s<strong></td>\n" % (cod_comunidad + comunidad)
             for i in range(0, n_years - 1):
@@ -104,24 +101,11 @@ def salida_html_R2(fichero, html_crear):
         fileEstilo.close()
 
 
-# Leemos el diccionario de comunidades autónomas.
-comunidades = lc.leer_comunidades('./entradasUTF8/comunidadesAutonomas.htm')
-
-"""
-    PARA LEER EL DICCIONARIO DE COMUNIDADES
-for cod_comunidad, comunidad in comunidades.items():
-    print(cod_comunidad, comunidad['CCAA'], comunidad['cantidad'])
-"""
-
-# Leemos la lista de provincias.
-provincias = lc.leer_provincias('./entradasUTF8/comunidadAutonoma-Provincia.htm')
-
-"""for cod_provincia, datos_provincia in provincias.items():
-    print(cod_provincia, datos_provincia['PRO'], datos_provincia['CODAUTO'], datos_provincia['CCAA'])"""
+# MAIN
 
 lc.limpiar_csv('./entradas/poblacionProvinciasHM2010-17.csv',
                './salidas/r2.csv',
-               CABECERA, '02 Albacete', 'Notas')
+               CABECERA, 'Total Nacional', 'Notas')
 
 # lc.leer_fichero('./salidas/r2.csv')
 
