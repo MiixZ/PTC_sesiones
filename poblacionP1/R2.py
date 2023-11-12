@@ -61,8 +61,10 @@ def salida_html_R2(fichero, html_crear):
 
         # ---------------------------------- Cabecera para los años. -----------------------------------------------
         p_poblacion += "<tr>\n"
+        datos_utiles_sin_letra = [dato[1:] if dato != 'Provincia' else dato for dato in datos_utiles]
+
         for i in range(1, n_years):
-            p_poblacion += "<th>%s</th>\n" % datos_utiles[i]
+            p_poblacion += "<th>%s</th>\n" % datos_utiles_sin_letra[i]
         p_poblacion += "</tr>\n"
 
         # Cogemos el diccionario de las comunidades autónomas y las provincias.
