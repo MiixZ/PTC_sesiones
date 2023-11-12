@@ -98,7 +98,7 @@ def calcular_total_por_comunidad(dict_provincias, dict_datos, n_years, datos_uti
         temp = np.zeros(n_years - 1)
         for i in range(1, len(a_dict)):
             if a_dict[datos_utiles[i]] != '':
-                temp[i-1] = round(float(a_dict[datos_utiles[i]]), 2)
+                temp[i - 1] = round(float(a_dict[datos_utiles[i]]), 2)
 
         if cod_comunidad_autonoma_actual in dict_result:
             dict_result[cod_comunidad_autonoma_actual] += temp
@@ -151,3 +151,58 @@ def leer_provincias(fichero):
     provincias.update(devolver_parte_provincia(parte2_provincias))
 
     return provincias
+
+
+def calcular_media_comunidades(dict_datos_comunidades, numero_anios):
+    """
+    Calcula la media de población de una comunidad autónoma.
+    :param numero_anios: Número de años total.
+    :param dict_datos_comunidades: Datos de la comunidad autónoma, con su código y
+    un numpy array con los datos de todos los años extraidos.
+    :return: Diccionario con el código de la comunidad autónoma y la media de población del total.
+    """
+    dict_media_comunidades = {}
+    for cod_comunidad, datos_comunidad in dict_datos_comunidades.items():
+        dict_media_comunidades[cod_comunidad] = round(np.mean(datos_comunidad[:numero_anios]), 2)
+
+    return dict_media_comunidades
+
+
+def devolver_poblacion_hombres(dict_datos_comunidades, numero_anios, numero_anios_total):
+    """
+    Calcula la población de hombres de una comunidad autónoma en cada año.
+    :param numero_anios_total: Número de años total.
+    :param numero_anios: Número de años total.
+    :param dict_datos_comunidades: Datos de la comunidad autónoma, con su código y
+    un numpy array con los datos de todos los años extraidos.
+    :return: Diccionario con el código de la comunidad autónoma y un numpy con la población de los hombres en cada año.
+    """
+    dict_poblacion_hombres = {}
+    for cod_comunidad, datos_comunidad in dict_datos_comunidades.items():
+        temp = np.zeros(numero_anios)
+        for i in range(0, numero_anios):
+            temp[i] = datos_comunidad[i + numero_anios]
+
+        dict_poblacion_hombres[cod_comunidad] = temp
+
+    return dict_poblacion_hombres
+
+
+def devolver_poblacion_mujeres(dict_datos_comunidades, numero_anios, numero_anios_total):
+    """
+    Calcula la población de mujeres de una comunidad autónoma en cada año.
+    :param numero_anios_total: Número de años total.
+    :param numero_anios: Número de años total.
+    :param dict_datos_comunidades: Datos de la comunidad autónoma, con su código y
+    un numpy array con los datos de todos los años extraidos.
+    :return: Diccionario con el código de la comunidad autónoma y un numpy con la población de las mujeres en cada año.
+    """
+    dict_poblacion_mujeres = {}
+    for cod_comunidad, datos_comunidad in dict_datos_comunidades.items():
+        temp = np.zeros(numero_anios)
+        for i in range(0, numero_anios):
+            temp[i] = datos_comunidad[i + numero_anios * 2]
+
+        dict_poblacion_mujeres[cod_comunidad] = temp
+
+    return dict_poblacion_mujeres

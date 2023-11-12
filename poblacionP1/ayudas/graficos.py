@@ -30,9 +30,9 @@ X = np.arange(4)
 print("\nX es:",X)
 
 plt.figure("barras")
-plt.axis([0, 5, 0, 10])
-plt.bar(X + 0.00, datos[0], color = "b", width = 0.25)
-plt.bar(X + 0.25, datos[1], color = "g", width = 0.25)
+plt.axis([0, 5, 0, 10])         # Limita los valores de los ejes
+plt.bar(X + 0.00, datos[0], color = "b", width = 0.25)  # Genera el gráfico de barras
+plt.bar(X + 0.25, datos[1], color = "g", width = 0.25)  # Genera el gráfico de barras
 plt.bar(X + 0.50, datos[2], color = "r", width = 0.25)
 plt.xticks(X+0.38, ["A","B","C","D"])
 
