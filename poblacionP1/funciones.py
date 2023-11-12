@@ -1,6 +1,8 @@
 # Funciones globales para R1, R2, R3, R4 y R5.
 
 import csv
+import locale
+
 from bs4 import BeautifulSoup
 import numpy as np
 
@@ -66,7 +68,7 @@ def leer_comunidades(fichero):
     celdas = soup.find_all('td')
 
     for i in range(0, len(celdas), 2):
-        comunidades[celdas[i].get_text()] = celdas[i + 1].get_text()
+        comunidades[celdas[i].get_text().strip()] = celdas[i + 1].get_text().strip()
 
     return comunidades
 
@@ -168,6 +170,37 @@ def calcular_media_comunidades(dict_datos_comunidades, numero_anios):
     return dict_media_comunidades
 
 
+def comunidades_con_mas_media(dict_media_comunidades, numero_comunidades):
+    """
+    Devuelve las comunidades con más media de población.
+    :param numero_comunidades: Número de comunidades a devolver.
+    :param dict_media_comunidades: Diccionario con el código de la comunidad autónoma y la media de población del total.
+    :return: Lista con las comunidades con más media de población.
+    """
+    copia_dict_media_comunidades = dict_media_comunidades.copy()
+    comunidades_mas_media = []
+    for i in range(0, numero_comunidades):
+        maximo = max(copia_dict_media_comunidades, key=copia_dict_media_comunidades.get)
+        comunidades_mas_media.append(maximo)
+        copia_dict_media_comunidades.pop(maximo)
+
+    return comunidades_mas_media
+
+
+def devolver_nombres_comunidades(dict_comunidades_mas_poblacion, dict_comunidades):
+    """
+    Devuelve los nombres de las comunidades con más población.
+    :param dict_comunidades: Diccionario con el código de la comunidad autónoma y el nombre de la comunidad autónoma.
+    :param dict_comunidades_mas_poblacion: Diccionario con el código de la comunidad autónoma y la media de población del total.
+    :return: Lista con los nombres de las comunidades con más población.
+    """
+    lista_nombres_comunidades = []
+    for cod_comunidad in dict_comunidades_mas_poblacion:
+        lista_nombres_comunidades.append(dict_comunidades[cod_comunidad])
+
+    return lista_nombres_comunidades
+
+
 def devolver_poblacion_hombres(dict_datos_comunidades, numero_anios, numero_anios_total):
     """
     Calcula la población de hombres de una comunidad autónoma en cada año.
@@ -206,3 +239,39 @@ def devolver_poblacion_mujeres(dict_datos_comunidades, numero_anios, numero_anio
         dict_poblacion_mujeres[cod_comunidad] = temp
 
     return dict_poblacion_mujeres
+
+
+def devolver_datos_comunidades(dict_comunidades_mas_poblacion, dict_datos_genero):
+    """
+    Devuelve los datos de las comunidades con más población en forma de lista.
+    :param dict_datos_genero: Diccionario con el código de la comunidad autónoma y un numpy con la población de los hombres o mujeres en cada año.
+    :param dict_comunidades_mas_poblacion: Diccionario con el código de la comunidad autónoma y la media de población del total.
+    :return: Diccionario con el código de la comunidad autónoma y un numpy con la población de los hombres o mujeres en cada año.
+    """
+    lista_datos_comunidades = []
+    for cod_comunidad in dict_comunidades_mas_poblacion:
+        lista_datos_comunidades.append(dict_datos_genero[cod_comunidad])
+
+    return lista_datos_comunidades
+
+
+def crear_tabla_comunidades(dict_comunidades, dict_resultados, n_years):
+    """
+    Crea una tabla con las comunidades autónomas.
+    :param n_years: Número de años.
+    :param dict_resultados: Diccionario con los datos a usar.
+    :param dict_comunidades: Diccionario con las comunidades autónomas.
+    :return: Cadena con la tabla HTML.
+    """
+    p_poblacion = ""
+
+    for cod_comunidad, comunidad in dict_comunidades.items():
+        # Añadimos las columna de las provincias.
+        p_poblacion += "<tr>\n"
+        p_poblacion += "<td><strong>%s<strong></td>\n" % (cod_comunidad + comunidad)
+        for i in range(0, n_years - 1):
+            variacion_absoluta = dict_resultados[cod_comunidad.strip()][i]
+            p_poblacion += "<td>%s</td>\n" % locale.format_string('%.0f', variacion_absoluta, grouping=True)
+        p_poblacion += "</tr>\n"
+
+    return p_poblacion
