@@ -25,11 +25,9 @@ CABECERA = ("Provincia;T2017;T2016;T2015;T2014;T2013;T2012;T2011;T2010;H2017;H20
 # FUNCIONES
 def salida_html_R2(fichero, html_crear):
     """
-    Genera la página web 1 (variacionprovincias.html)
+    Genera la página web 2 (salidaR2.html)
     leyendo los datos del fichero que le pasamos como parámetro.
-    Para cada provincia (fila) leerá el total nacional de cada año (columna) y
-    generará una tabla con dos grandes columnas (Variación absoluta y Variación relativa)
-    de cada provincia en el csv.
+    Para cada comunidad autónoma, se mostrará la suma de todas sus provincias por año y se insertará en una tabla.
     :param fichero: CSV a leer.
     :param html_crear: HTML a crear.
     :return: None
