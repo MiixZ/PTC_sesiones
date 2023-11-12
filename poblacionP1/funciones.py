@@ -111,6 +111,11 @@ def calcular_total_por_comunidad(dict_provincias, dict_datos, n_years, datos_uti
 
 
 def devolver_parte_provincia(provincias):
+    """
+    Devuelve la parte de las provincias que nos interesa.
+    :param provincias:
+    :return: Diccionario con los datos de las provincias.
+    """
     provincias2 = {}
 
     for i in range(0, len(provincias), 4):
@@ -246,7 +251,7 @@ def devolver_datos_comunidades(dict_comunidades_mas_poblacion, dict_datos_genero
     Devuelve los datos de las comunidades con más población en forma de lista.
     :param dict_datos_genero: Diccionario con el código de la comunidad autónoma y un numpy con la población de los hombres o mujeres en cada año.
     :param dict_comunidades_mas_poblacion: Diccionario con el código de la comunidad autónoma y la media de población del total.
-    :return: Diccionario con el código de la comunidad autónoma y un numpy con la población de los hombres o mujeres en cada año.
+    :return: Lista con el código de la comunidad autónoma y un numpy con la población de los hombres o mujeres en cada año.
     """
     lista_datos_comunidades = []
     for cod_comunidad in dict_comunidades_mas_poblacion:

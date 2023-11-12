@@ -113,7 +113,7 @@ def salida_html_R3(fichero, html_crear):
         plt.savefig("graficoR3.jpg", bbox_inches='tight')
 
         # Añadimos el gráfico al HTML.
-        p_poblacion += "<img src='../graficoR3.jpg' width='1280px' height='1280px' alt='Gráfico de barras'>\n"
+        p_poblacion += "<img src='../graficoR3.jpg' width='800px' height='800px' alt='Gráfico de barras'>\n"
 
         # html.write(lc.PIE_HTML)
         p_poblacion += lc.PIE_HTML
