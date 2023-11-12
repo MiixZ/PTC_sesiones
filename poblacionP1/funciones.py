@@ -268,7 +268,7 @@ def crear_tabla_comunidades(dict_comunidades, dict_resultados, n_years):
     for cod_comunidad, comunidad in dict_comunidades.items():
         # Añadimos las columna de las provincias.
         p_poblacion += "<tr>\n"
-        p_poblacion += "<td><strong>%s<strong></td>\n" % (cod_comunidad + comunidad)
+        p_poblacion += "<td><strong>%s<strong></td>\n" % (cod_comunidad + ' ' + comunidad)
         for i in range(0, n_years - 1):
             variacion_absoluta = dict_resultados[cod_comunidad.strip()][i]
             p_poblacion += "<td>%s</td>\n" % locale.format_string('%.0f', variacion_absoluta, grouping=True)
