@@ -78,7 +78,7 @@ def salida_html_R2(fichero, html_crear):
             p_poblacion += "<td><strong>%s<strong></td>\n" % (cod_comunidad + comunidad)
             for i in range(0, n_years - 1):
                 variacion_absoluta = dict_resultados[cod_comunidad.strip()][i]
-                p_poblacion += "<td>%s</td>\n" % locale.format_string('%.2f', variacion_absoluta, grouping=True)
+                p_poblacion += "<td>%s</td>\n" % locale.format_string('%.0f', variacion_absoluta, grouping=True)
             p_poblacion += "</tr>\n"
 
         # html.write("</table>\n")
