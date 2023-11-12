@@ -72,14 +72,7 @@ def salida_html_R2(fichero, html_crear):
         provincias_ = lc.leer_provincias('./entradasUTF8/comunidadAutonoma-Provincia.htm')
         dict_resultados = lc.calcular_total_por_comunidad(provincias_, dict_r, n_years, datos_utiles)
 
-        for cod_comunidad, comunidad in comunidades_autonomas.items():
-            # Añadimos las columna de las provincias.
-            p_poblacion += "<tr>\n"
-            p_poblacion += "<td><strong>%s<strong></td>\n" % (cod_comunidad + comunidad)
-            for i in range(0, n_years - 1):
-                variacion_absoluta = dict_resultados[cod_comunidad.strip()][i]
-                p_poblacion += "<td>%s</td>\n" % locale.format_string('%.0f', variacion_absoluta, grouping=True)
-            p_poblacion += "</tr>\n"
+        p_poblacion += lc.crear_tabla_comunidades(comunidades_autonomas, dict_resultados, n_years)
 
         # html.write("</table>\n")
         p_poblacion += "</table>\n"
