@@ -114,11 +114,17 @@ def variacion_relativa(anio_mayor, anio_menor):
     return ((anio_mayor - anio_menor) / anio_menor) * 100
 
 
-cabecera = "Provincia;2017;2016;2015;2014;2013;2012;2011;2010"
-lc.limpiar_csv('entradas/poblacionProvinciasHM2010-17.csv',
-               "salidas/poblacionProvinciasHM2010-17.csv",
-               cabecera, "Total", "Notas")
-lc.leer_fichero('salidas/poblacionProvinciasHM2010-17.csv')
+def ejecutar_R1():
+    cabecera = "Provincia;2017;2016;2015;2014;2013;2012;2011;2010"
+    lc.limpiar_csv('entradas/poblacionProvinciasHM2010-17.csv',
+                   "salidas/poblacionProvinciasHM2010-17.csv",
+                   cabecera, "Total", "Notas")
+    lc.leer_fichero('salidas/poblacionProvinciasHM2010-17.csv')
 
-salida_html_R1('salidas/poblacionProvinciasHM2010-17.csv',
-               'salidas/salidaR1.html')
+    salida_html_R1('salidas/poblacionProvinciasHM2010-17.csv',
+                   'salidas/salidaR1.html')
+
+
+# Programa principal.
+if __name__ == "__main__":
+    ejecutar_R1()

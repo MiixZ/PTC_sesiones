@@ -94,12 +94,18 @@ def salida_html_R2(fichero, html_crear):
         fileEstilo.close()
 
 
+def ejecutar_R2():
+    """
+    Ejecuta la función salida_html_R2(fichero, html_crear).
+    :return: None
+    """
+    lc.limpiar_csv('./entradas/poblacionProvinciasHM2010-17.csv',
+                   './salidas/r2.csv',
+                   CABECERA, 'Total Nacional', 'Notas')
+    # lc.leer_fichero('./salidas/r2.csv')
+    salida_html_R2('./salidas/r2.csv', './salidas/salidaR2.html')
+
+
 # MAIN
-
-lc.limpiar_csv('./entradas/poblacionProvinciasHM2010-17.csv',
-               './salidas/r2.csv',
-               CABECERA, 'Total Nacional', 'Notas')
-
-# lc.leer_fichero('./salidas/r2.csv')
-
-salida_html_R2('./salidas/r2.csv', './salidas/salidaR2.html')
+if __name__ == "__main__":
+    ejecutar_R2()

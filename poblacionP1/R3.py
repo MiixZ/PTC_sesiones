@@ -133,4 +133,14 @@ def salida_html_R3(fichero, html_crear):
         fileEstilo.close()
 
 
-salida_html_R3('./salidas/r2.csv', './salidas/salidaR2_3.html')
+def ejecutar_R3():
+    """
+    Ejecuta la función salida_html_R3.
+    :return: None
+    """
+    salida_html_R3('./salidas/r2.csv', './salidas/salidaR2_3.html')
+
+
+# MAIN
+if __name__ == "__main__":
+    ejecutar_R3()
