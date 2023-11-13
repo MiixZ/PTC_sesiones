@@ -91,13 +91,13 @@ def calcular_total_por_comunidad(dict_provincias, dict_datos, n_years, datos_uti
     :param datos_utiles: Mismos datos que en el fichero CSV.
     :param dict_provincias: Diccioanrio de provincias.
     :param dict_datos:  Diccionario con los datos de las provincias en cada año.
-    :return: Un numpy array con los datos de todos los años extraidos.
+    :return: Un diccionario con el código de la comunidad autónoma y un numpy array con los datos de todos los años extraidos.
     """
     dict_result = {}
     z = 0
     for a_dict in dict_datos:
         cod_comunidad_autonoma_actual = dict_provincias[a_dict['Provincia'][:2]]['CODAUTO']
-        temp = np.zeros(n_years - 1)
+        temp = np.zeros(n_years)
         for i in range(1, len(a_dict)):
             if a_dict[datos_utiles[i]] != '':
                 temp[i - 1] = round(float(a_dict[datos_utiles[i]]), 2)
