@@ -81,7 +81,7 @@ def salida_html_R3(fichero, html_):
     plt.title("Población por sexo en el año 2017 (CCAA)")
     plt.savefig("./imagenes/R3.png", bbox_inches='tight')
 
-    lc.aniadir_imagen_a_html('./resultados/poblacionComAutonomas.html', './imagenes/R3.png',
+    lc.aniadir_imagen_a_html('./resultados/poblacionComAutonomas.html', '../imagenes/R3.png',
                              "1000px", "800px", "Gráfico de barras")
 
 

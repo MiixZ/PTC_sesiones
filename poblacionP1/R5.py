@@ -60,7 +60,7 @@ def salida_html_R5(fichero, html):
 
     # Guardar la figura con un buen espacio alrededor
     plt.savefig("./imagenes/R5.png", bbox_inches="tight")
-    lc.aniadir_imagen_a_html(html, "./imagenes/R5.png", "1000px", "80px", "Gráfico de líneas")
+    lc.aniadir_imagen_a_html(html, "../imagenes/R5.png", "1000px", "800px", "Gráfico de líneas")
 
 
 def ejecutar_R5():
