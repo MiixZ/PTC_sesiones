@@ -18,13 +18,13 @@ CABECERA = ("Provincia;T2017;T2016;T2015;T2014;T2013;T2012;T2011;T2010;H2017;H20
             ";H2010;M2017;M2016;M2015;M2014;M2013;M2012;M2011;M2010;\n")
 
 
-def salida_html_R3(fichero, html_crear):
+def salida_html_R3(fichero, html_):
     """
     Genera la página web 2 (salidaR2_3.html) con el gráfico de barras incorporado.
     leyendo los datos del fichero que le pasamos como parámetro.
     Para cada comunidad autónoma, se mostrará la suma de todas sus provincias por año y se insertará en una tabla.
     :param fichero: CSV a leer.
-    :param html_crear: HTML a crear.
+    :param html: HTML a crear.
     :return: None
     """
     # Leer el fichero CSV.
@@ -37,100 +37,52 @@ def salida_html_R3(fichero, html_crear):
     n_years = n_datos - 1  # 2017 a 2010 menos el título "Provincias".
 
     # Cogemos todos los diccionarios que vayamos a usar.
-    comunidades_autonomas = lc.leer_comunidades('./entradasUTF8/comunidadesAutonomas.htm')
-    provincias_ = lc.leer_provincias('./entradasUTF8/comunidadAutonoma-Provincia.htm')
+    comunidades_autonomas = lc.leer_comunidades(lc.COMUNIDADES_AUTONOMAS_PATH)
+    provincias_ = lc.leer_provincias(lc.COMUNIDADES_AUTONOMAS_PROVINCIAS_PATH)
     dict_resultados = lc.calcular_total_por_comunidad(provincias_, dict_r, n_years, datos_utiles)
     dict_medias_total = lc.calcular_media_comunidades(dict_resultados, n_years // 3)
     dict_hombres = lc.devolver_poblacion_hombres(dict_resultados, n_years // 3, n_years)
     dict_mujeres = lc.devolver_poblacion_mujeres(dict_resultados, n_years // 3, n_years)
 
-    # Crear el fichero HTML.
-    with open(html_crear, 'w', encoding='utf-8') as html:
-        p_poblacion += lc.CABECERA_HTML
+    # Ponemos el gráfico.
+    # Damos nombre a los ejes y título al gráfico.
+    plt.figure("barras")
+    plt.title("Población de hombres y mujeres en 2017")
+    plt.xlabel("Comunidades Autónomas")
+    plt.ylabel("Población")
 
-        # Crear la tabla
-        tabla_inicio = """
-        <table>
-        <tr>
-        <th rowspan='2'>CCAA</th> \n
-        <th colspan=%s>Total</th>
-        <th colspan=%s>Hombres</th>
-        <th colspan=%s>Mujeres</th>
-        </tr>
-        """ % ((n_years - 1) // 3, n_years // 3, n_years // 3)  # -1 para quitar la columna "provincias"
+    # Cogemos el código de las 10 comunidades con más población media de 2010 a 2017.
+    comunidades_mas_poblacion = lc.comunidades_con_mas_media(dict_medias_total, 10)
 
-        # html.write(tabla_inicio)
-        p_poblacion += tabla_inicio
+    # Cogemos los datos de hombres y mujeres de las 10 comunidades con más población media de 2010 a 2017.
+    # Los datos es una lista con 10 listas dentro, cada una con los datos de hombres o mujeres de cada comunidad.
+    datos_hombres = lc.devolver_datos_comunidades(comunidades_mas_poblacion, dict_hombres)
+    datos_mujeres = lc.devolver_datos_comunidades(comunidades_mas_poblacion, dict_mujeres)
 
-        # ---------------------------------- Cabecera para los años. -----------------------------------------------
-        p_poblacion += "<tr>\n"
-        datos_utiles_sin_letra = [dato[1:] if dato != 'Provincia' else dato for dato in datos_utiles]
+    # Creamos el gráfico.
+    num_comunidades = len(comunidades_mas_poblacion)
+    X = np.arange(num_comunidades)
+    plt.figure("barras")
+    plt.axis([0, num_comunidades, 0, 4250000])
+    nombre_comunidades = lc.devolver_nombres_comunidades(comunidades_mas_poblacion, comunidades_autonomas)
 
-        for i in range(1, n_years):
-            p_poblacion += "<th>%s</th>\n" % datos_utiles_sin_letra[i]
-        p_poblacion += "</tr>\n"
+    # Creamos una lista con los datos de hombres y mujeres de cada comunidad.
+    hombres = []
+    mujeres = []
+    for i in range(num_comunidades):
+        hombres.append(datos_hombres[i][0])
+        mujeres.append(datos_mujeres[i][0])
 
-        p_poblacion += lc.crear_tabla_comunidades(comunidades_autonomas, dict_resultados, n_years)
+    plt.bar(X + 0.25, hombres, color="b", width=0.25)
+    plt.bar(X + 0.5, mujeres, color="r", width=0.25)
 
-        # html.write("</table>\n")
-        p_poblacion += "</table>\n"
+    plt.xticks(X + 0.38, nombre_comunidades, rotation=80)
+    plt.legend(["Hombres", "Mujeres"])
+    plt.title("Población por sexo en el año 2017 (CCAA)")
+    plt.savefig("./imagenes/R3.png", bbox_inches='tight')
 
-        # Ponemos el gráfico.
-        # Damos nombre a los ejes y título al gráfico.
-        plt.figure("barras")
-        plt.title("Población de hombres y mujeres en 2017")
-        plt.xlabel("Comunidades Autónomas")
-        plt.ylabel("Población")
-
-        # Cogemos el código de las 10 comunidades con más población media de 2010 a 2017.
-        comunidades_mas_poblacion = lc.comunidades_con_mas_media(dict_medias_total, 10)
-
-        # Cogemos los datos de hombres y mujeres de las 10 comunidades con más población media de 2010 a 2017.
-        # Los datos es una lista con 10 listas dentro, cada una con los datos de hombres o mujeres de cada comunidad.
-        datos_hombres = lc.devolver_datos_comunidades(comunidades_mas_poblacion, dict_hombres)
-        datos_mujeres = lc.devolver_datos_comunidades(comunidades_mas_poblacion, dict_mujeres)
-
-        # Creamos el gráfico.
-        num_comunidades = len(comunidades_mas_poblacion)
-        X = np.arange(num_comunidades)
-        plt.figure("barras")
-        plt.axis([0, num_comunidades, 0, 4250000])
-        nombre_comunidades = lc.devolver_nombres_comunidades(comunidades_mas_poblacion, comunidades_autonomas)
-
-        # Creamos una lista con los datos de hombres y mujeres de cada comunidad.
-        hombres = []
-        mujeres = []
-        for i in range(num_comunidades):
-            hombres.append(datos_hombres[i][0])
-            mujeres.append(datos_mujeres[i][0])
-
-        plt.bar(X + 0.25, hombres, color="b", width=0.25)
-        plt.bar(X + 0.5, mujeres, color="r", width=0.25)
-
-        plt.xticks(X + 0.38, nombre_comunidades, rotation=80)
-        plt.legend(["Hombres", "Mujeres"])
-        plt.title("Población por sexo en el año 2017 (CCAA)")
-        plt.savefig("graficoR3.jpg", bbox_inches='tight')
-
-        # Añadimos el gráfico al HTML.
-        p_poblacion += "<img src='../graficoR3.jpg' width='800px' height='800px' alt='Gráfico de barras'>\n"
-
-        # html.write(lc.PIE_HTML)
-        p_poblacion += lc.PIE_HTML
-
-        html.write(p_poblacion)
-        fileEstilo = open("./salidas/estilo.css", "w", encoding="utf8")
-
-        estilo = """  table, th, td {
-                        border-collapse: collapse;    
-                        border:1px solid black;
-                        font-family: Arial, Helvetica, sans-serif;
-                        padding: 8px;
-                        text-align: center;
-                    }  """
-
-        fileEstilo.write(estilo)
-        fileEstilo.close()
+    lc.aniadir_imagen_a_html('./resultados/poblacionComAutonomas.html', './imagenes/R3.png',
+                             "1000px", "800px", "Gráfico de barras")
 
 
 def ejecutar_R3():
@@ -138,7 +90,7 @@ def ejecutar_R3():
     Ejecuta la función salida_html_R3.
     :return: None
     """
-    salida_html_R3('./salidas/r2.csv', './salidas/salidaR2_3.html')
+    salida_html_R3('./resultados/poblacionProvinciasHM2010-17-limpio.csv', './resultados/poblacionComAutonomas.html')
 
 
 # MAIN

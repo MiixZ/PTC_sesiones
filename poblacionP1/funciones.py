@@ -37,6 +37,30 @@ def estilo():
     fileEstilo.close()
 
 
+def aniadir_imagen_a_html(html_, imagen, ancho, alto, alt):
+    """
+    Añade una imagen al HTML.
+    :param html_: HTML a procesar.
+    :param imagen: Ruta con la imagen.
+    :param ancho: Ancho de la imagen.
+    :param alto: Alto de la imagen.
+    :param alt: Texto alternativo de la imagen.
+    :return: None
+    """
+    with open(html_, "r") as html:
+        lines = html.readlines()
+
+    with open(html_, "w") as html:
+        for line in lines:
+            if line.strip() != ("<img src='%s' width='%s' height=%s alt='%s' "
+                                "width='500' height='500'>") % (imagen, ancho, alto, alt):
+                html.write(line)
+
+    with open(html_, "a") as html:
+        print(imagen, ancho, alto, alt)
+        html.write("<img src='%s' width='%s' height='%s' alt='%s'>" % (imagen, ancho, alto, alt))
+
+
 def limpiar_csv(fichero, fichero_nuevo, cabecera, primera_palabra, ultima_palabra):
     """
     Limpia un fichero CSV de datos no útiles.
