@@ -16,7 +16,7 @@ import funciones as lc
 
 locale.setlocale(locale.LC_ALL, '')
 
-CABECERA = "Provincia;2017;2016;2015;2014;2013;2012;2011;2010"
+CABECERA = "Provincia;2017;2016;2015;2014;2013;2012;2011;2010"      # Cabecera con los datos que vamos a coger.
 
 # Hay que usar diccionarios y numpy arrays. Prohibido
 # usar pandas y dataframe.
@@ -103,12 +103,12 @@ def salida_html_R1(fichero, html_crear):
 
 def ejecutar_R1():
     lc.limpiar_csv('entradas/poblacionProvinciasHM2010-17.csv',
-                   "resultados/poblacionProvinciasHM2010-17.csv",
+                   "resultados/poblacionProvinciasHM2010-17-limpio.csv",
                    CABECERA, "Total", "Notas")
 
     # lc.leer_fichero('resultados/poblacionProvinciasHM2010-17.csv')
 
-    salida_html_R1('entradas/poblacionProvinciasHM2010-17.csv',
+    salida_html_R1('resultados/poblacionProvinciasHM2010-17-limpio.csv',
                    'resultados/variacionProvincias.html')
 
 
