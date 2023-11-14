@@ -17,6 +17,10 @@ PIE_HTML = """
 </html>
 """
 
+COMUNIDADES_AUTONOMAS_PATH = "entradas/comunidadesAutonomas.htm"
+COMUNIDADES_AUTONOMAS_PROVINCIAS_PATH = "entradas/comunidadAutonoma-Provincia.htm"
+POBLACION_PROVINCIAS_PATH = "entradas/poblacionProvinciasHM2010-17.csv"
+
 
 def estilo():
     fileEstilo = open("resultados/estilo.css", "w", encoding="utf8")

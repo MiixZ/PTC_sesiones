@@ -32,10 +32,13 @@ def salida_html_R2(fichero, html_crear):
     :param html_crear: HTML a crear.
     :return: None
     """
-    # Leer el fichero CSV.
+    print(fichero)
+
+    # Leer y limpiar el fichero CSV.
     dict_r = lc.dict_fichero_csv(fichero)
-    p_poblacion = ""
-    fila_1 = dict_r.__next__()  # Saltamos la primera fila (datos del total nacional que usamos para coger las cabeceras).
+    p_poblacion = ""  # Variable para guardar el html.
+    fila_1 = dict_r.__next__()  # Saltamos la primera fila
+    # (datos del total nacional que usamos para coger las cabeceras)
 
     datos_utiles = [columna for columna in fila_1.keys() if columna != 'none']  # Cogemos los años.
     n_datos = len(datos_utiles)
@@ -45,7 +48,7 @@ def salida_html_R2(fichero, html_crear):
     with open(html_crear, 'w', encoding='utf-8') as html:
         p_poblacion += lc.CABECERA_HTML
 
-        # Crear la tabla
+        # Crear la tabla con la estructura que queremos.
         tabla_inicio = """
         <table>
         <tr>
@@ -56,7 +59,6 @@ def salida_html_R2(fichero, html_crear):
         </tr>
         """ % ((n_years - 1) // 3, n_years // 3, n_years // 3)  # -1 para quitar la columna "provincias"
 
-        # html.write(tabla_inicio)
         p_poblacion += tabla_inicio
 
         # ---------------------------------- Cabecera para los años. -----------------------------------------------
@@ -65,33 +67,19 @@ def salida_html_R2(fichero, html_crear):
 
         for i in range(1, n_years):
             p_poblacion += "<th>%s</th>\n" % datos_utiles_sin_letra[i]
+
         p_poblacion += "</tr>\n"
 
-        # Cogemos el diccionario de las comunidades autónomas y las provincias.
-        comunidades_autonomas = lc.leer_comunidades('./entradasUTF8/comunidadesAutonomas.htm')
-        provincias_ = lc.leer_provincias('./entradasUTF8/comunidadAutonoma-Provincia.htm')
+        # ---------------------------------- Cuerpo de la tabla. ---------------------------------------------------
+        comunidades_autonomas = lc.leer_comunidades(lc.COMUNIDADES_AUTONOMAS_PATH)
+        provincias_ = lc.leer_provincias(lc.COMUNIDADES_AUTONOMAS_PROVINCIAS_PATH)
         dict_resultados = lc.calcular_total_por_comunidad(provincias_, dict_r, n_years, datos_utiles)
-
         p_poblacion += lc.crear_tabla_comunidades(comunidades_autonomas, dict_resultados, n_years)
 
-        # html.write("</table>\n")
         p_poblacion += "</table>\n"
-        # html.write(lc.PIE_HTML)
         p_poblacion += lc.PIE_HTML
 
         html.write(p_poblacion)
-        fileEstilo = open("./salidas/estilo.css", "w", encoding="utf8")
-
-        estilo = """  table, th, td {
-                        border-collapse: collapse;    
-                        border:1px solid black;
-                        font-family: Arial, Helvetica, sans-serif;
-                        padding: 8px;
-                        text-align: center;
-                    }  """
-
-        fileEstilo.write(estilo)
-        fileEstilo.close()
 
 
 def ejecutar_R2():
@@ -100,10 +88,10 @@ def ejecutar_R2():
     :return: None
     """
     lc.limpiar_csv('./entradas/poblacionProvinciasHM2010-17.csv',
-                   './salidas/r2.csv',
+                   './resultados/poblacionProvinciasHM2010-17-limpio.csv',
                    CABECERA, 'Total Nacional', 'Notas')
-    # lc.leer_fichero('./salidas/r2.csv')
-    salida_html_R2('./salidas/r2.csv', './salidas/salidaR2.html')
+    # lc.leer_fichero('./resultados/r2.csv')
+    salida_html_R2('./resultados/poblacionProvinciasHM2010-17-limpio.csv', './resultados/poblacionComAutonomas.html')
 
 
 # MAIN
