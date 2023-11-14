@@ -54,14 +54,13 @@ def salida_html_R1(fichero, html_crear):
         </tr>
         """ % (n_years - 1, n_years)  # -1 para quitar la columna "provincias"
 
-        # html.write(tabla_inicio)
         p_poblacion += tabla_inicio
 
         # Inicio de la estructura de la tabla.
         p_poblacion += "<tr>\n"
         p_poblacion += "<th>%s</th>\n" % datos_utiles[0]    # Titulo de la primera columna.
 
-        # Doble for para colocar los años tanto en la variación absoluta como en la relativa.
+        # -------------------------------- Cabecera para los años. -----------------------------------------------
         for i in range(1, n_years):
             p_poblacion += "<th>%s</th>\n" % datos_utiles[i]
 
@@ -71,6 +70,8 @@ def salida_html_R1(fichero, html_crear):
         p_poblacion += "</tr>\n"
 
         dict_r.__next__()  # Saltamos la primera fila (Datos innecesarios).
+
+        # -------------------------------- Cuerpo de la tabla. ---------------------------------------------------
         for a_dict in dict_r:
             # Añadimos las provincias.
             p_poblacion += "<tr>\n"
@@ -91,9 +92,9 @@ def salida_html_R1(fichero, html_crear):
             # Fin celdas de datos.
             p_poblacion += "</tr>\n"
 
-        p_poblacion += "</table>\n"
-        p_poblacion += lc.PIE_HTML
+        # ---------------------------------- Fin de fichero. ------------------------------------------------------
 
+        p_poblacion += lc.PIE_HTML
         html.write(p_poblacion)
 
 

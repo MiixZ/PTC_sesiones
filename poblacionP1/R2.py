@@ -74,9 +74,9 @@ def salida_html_R2(fichero, html_crear):
         dict_resultados = lc.calcular_total_por_comunidad(provincias_, dict_r, n_years, datos_utiles)
         p_poblacion += lc.crear_tabla_comunidades(comunidades_autonomas, dict_resultados, n_years)
 
-        p_poblacion += "</table>\n"
-        p_poblacion += lc.PIE_HTML
+        # ---------------------------------- Fin de fichero. ------------------------------------------------------
 
+        p_poblacion += lc.PIE_HTML
         html.write(p_poblacion)
 
 
