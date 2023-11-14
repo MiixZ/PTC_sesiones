@@ -48,7 +48,8 @@ def salida_html_R5(fichero, html_crear):
     plt.axis([0, len(anios), 1125000, 8750000])
 
     for comunidad in comunidades_mas_poblacion:
-        plt.plot(dict_resultados[comunidad], marker="o", label=comunidades_autonomas[comunidad])
+        # Le damos la vuelta porque mostraría de 2017 a 2010.
+        plt.plot(dict_resultados[comunidad][0:len(anios)][::-1], marker="o", label=comunidades_autonomas[comunidad])
 
     plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
 
@@ -75,5 +76,9 @@ def salida_html_R5(fichero, html_crear):
                    "height='500'>\n")
 
 
-if __name__ == "__main__":
+def ejecutar_R5():
     salida_html_R5('./salidas/r2.csv', './salidas/salidaR4.html')
+
+
+if __name__ == "__main__":
+    ejecutar_R5()
