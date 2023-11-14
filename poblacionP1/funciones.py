@@ -6,6 +6,8 @@ import locale
 from bs4 import BeautifulSoup
 import numpy as np
 
+locale.setlocale(locale.LC_ALL, '')
+
 CABECERA_HTML = """
 <!DOCTYPE html><html><head><title>Ejemplo tabla</title>
 <link rel="stylesheet" href="estilo.css"> <meta charset="utf8"></head>
@@ -13,6 +15,7 @@ CABECERA_HTML = """
 """
 
 PIE_HTML = """
+</table>
 </body>
 </html>
 """

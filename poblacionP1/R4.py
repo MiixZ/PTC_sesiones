@@ -3,10 +3,6 @@ comunidades autónomas desde el año 2011 a 2017, indicando variación absoluta,
 información por sexos, es decir, variación absoluta (hombres, mujeres) y relativa (hombres, mujeres). Para los
 cálculos, hay que actuar de manera semejante que en el apartado R1."""
 
-import csv
-import bs4
-import numpy as np
-import matplotlib as mpl
 import locale
 import funciones as lc
 
@@ -37,10 +33,9 @@ def salida_html_R4(fichero, html_crear):
     n_years = n_datos - 1  # 2017 a 2010 menos la columna "Provincias".
 
     # Cogemos todos los diccionarios que vamos a usar.
-    comunidades_autonomas = lc.leer_comunidades('./entradasUTF8/comunidadesAutonomas.htm')
-    provincias_ = lc.leer_provincias('./entradasUTF8/comunidadAutonoma-Provincia.htm')
+    comunidades_autonomas = lc.leer_comunidades(lc.COMUNIDADES_AUTONOMAS_PATH)
+    provincias_ = lc.leer_provincias(lc.COMUNIDADES_AUTONOMAS_PROVINCIAS_PATH)
     dict_resultados = lc.calcular_total_por_comunidad(provincias_, dict_r, n_years, datos_utiles)
-    dict_medias_total = lc.calcular_media_comunidades(dict_resultados, n_years // 3)
     dict_hombres = lc.devolver_poblacion_hombres(dict_resultados, n_years // 3, n_years)
     dict_mujeres = lc.devolver_poblacion_mujeres(dict_resultados, n_years // 3, n_years)
 
@@ -48,7 +43,7 @@ def salida_html_R4(fichero, html_crear):
     with open(html_crear, 'w', encoding='utf-8') as html:
         p_poblacion += lc.CABECERA_HTML
 
-        # Crear la tabla
+        # Crear la tabla con la estructura que queremos.
         tabla_inicio = """
         <table>
         <tr>
@@ -64,12 +59,14 @@ def salida_html_R4(fichero, html_crear):
         <th colspan=%s>Hombres</th>
         <th colspan=%s>Mujeres</th>
         </tr>
-        """ % (2 * n_years // 3 - 2, 2 * n_years // 3 - 2, n_years // 3 - 1, n_years // 3 - 1, n_years // 3 - 1, n_years // 3 - 1)
+        """ % (2 * n_years // 3 - 2, 2 * n_years // 3 - 2, n_years // 3 - 1, n_years // 3 - 1, n_years // 3 - 1,
+               n_years // 3 - 1)
+        # Como n_years realmente representa años totales + años hombres + años mujeres, tenemos que cogerlo según nos
+        # convenga.
 
-        # html.write(tabla_inicio)
         p_poblacion += tabla_inicio
 
-        # Añadimos los años para la variación absoluta y relativa.
+        # -------------------------------- Cabecera para los años. -----------------------------------------------
         p_poblacion += "<tr>\n"
         p_poblacion += "<th> </th>\n"
 
@@ -79,56 +76,52 @@ def salida_html_R4(fichero, html_crear):
 
         p_poblacion += "</tr>\n"
 
-        # Creamos la tabla con los datos de las comunidades autónomas.
+        # -------------------------------- Cuerpo de la tabla. ---------------------------------------------------
         for comunidad in comunidades_autonomas:
             p_poblacion += "<tr>\n"
             p_poblacion += "<td><strong>%s</strong></td>\n" % comunidades_autonomas[comunidad]
             for i in range(1, 2):
                 for j in range(1, n_years // 3):
                     # Calculamos la variación absoluta de hombres.
-                    variacion_absoluta = (float(dict_hombres[comunidad][j - 1]) - float(dict_hombres[comunidad][j]))
-                    p_poblacion += "<td>%s</td>\n" % locale.format_string('%.0f', variacion_absoluta, grouping=True)
+                    variacion_absoluta = lc.variacion_absoluta(float(dict_hombres[comunidad][j - 1]),
+                                                               float(dict_hombres[comunidad][j]))
+                    # Colocamos la variación absoluta.
+                    p_poblacion += "<td>%s</td>\n" % variacion_absoluta[0:-3]
                 for j in range(1, n_years // 3):
                     # Calculamos la variación absoluta de mujeres.
-                    variacion_absoluta = (float(dict_mujeres[comunidad][j - 1]) - float(dict_mujeres[comunidad][j]))
-                    p_poblacion += "<td>%s</td>\n" % locale.format_string('%.0f', variacion_absoluta, grouping=True)
+                    variacion_absoluta = lc.variacion_absoluta(float(dict_mujeres[comunidad][j - 1]),
+                                                               float(dict_mujeres[comunidad][j]))
+                    # Colocamos la variación absoluta.
+                    p_poblacion += "<td>%s</td>\n" % variacion_absoluta[0:-3]
 
                 for j in range(1, n_years // 3):
-                    # Calculamos la variación relativa de hombres sin usar la función de lc.
-                    variacion_relativa = (float(dict_hombres[comunidad][j - 1]) - float(dict_hombres[comunidad][j])) / float(dict_hombres[comunidad][j]) * 100
-                    p_poblacion += "<td>%s</td>\n" % locale.format_string('%.2f', variacion_relativa, grouping=True)
+                    # Calculamos la variación relativa de hombres.
+                    variacion_relativa = lc.variacion_relativa(float(dict_hombres[comunidad][j - 1]),
+                                                               float(dict_hombres[comunidad][j]))
+                    p_poblacion += "<td>%s</td>\n" % variacion_relativa  # Colocamos la variación relativa.
+
                 for j in range(1, n_years // 3):
-                    # Calculamos la variación absoluta de mujeres.
-                    variacion_relativa = (float(dict_mujeres[comunidad][j - 1]) - float(dict_mujeres[comunidad][j])) / float(dict_mujeres[comunidad][j]) * 100
-                    p_poblacion += "<td>%s</td>\n" % locale.format_string('%.2f', variacion_relativa, grouping=True)
+                    # Calculamos la variación relativa de mujeres.
+                    variacion_relativa = lc.variacion_relativa(float(dict_mujeres[comunidad][j - 1]),
+                                                               float(dict_mujeres[comunidad][j]))
+                    p_poblacion += "<td>%s</td>\n" % variacion_relativa  # Colocamos la variación relativa.
 
             p_poblacion += "</tr>\n"
 
-        p_poblacion += "</table>\n"
+        # ---------------------------------- Fin de fichero. ------------------------------------------------------
+
         p_poblacion += lc.PIE_HTML
-
         html.write(p_poblacion)
-        fileEstilo = open("./salidas/estilo.css", "w", encoding="utf8")
-
-        estilo = """  table, th, td {
-                        border-collapse: collapse;    
-                        border:1px solid black;
-                        font-family: Arial, Helvetica, sans-serif;
-                        padding: 8px;
-                        text-align: center;
-                    }  """
-
-        fileEstilo.write(estilo)
-        fileEstilo.close()
 
 
 def ejecutar_R4():
-    lc.limpiar_csv('entradas/poblacionProvinciasHM2010-17.csv','./salidas/r2.csv',
+    lc.limpiar_csv('entradas/poblacionProvinciasHM2010-17.csv',
+                   './resultados/poblacionProvinciasHM2010-17-limpio.csv',
                    CABECERA, 'Total Nacional', 'Notas')
 
-    #lc.leer_fichero('./salidas/r2.csv')
+    # lc.leer_fichero('./resultados/r2.csv')
 
-    salida_html_R4('./salidas/r2.csv', 'salidas/salidaR4.html')
+    salida_html_R4('./resultados/poblacionProvinciasHM2010-17-limpio.csv', 'resultados/variacionComAutonomas.html')
 
 
 # Programa principal.

@@ -16,13 +16,13 @@ CABECERA = ("Provincia;T2017;T2016;T2015;T2014;T2013;T2012;T2011;T2010;H2017;H20
             ";H2010;M2017;M2016;M2015;M2014;M2013;M2012;M2011;M2010;\n")
 
 
-def salida_html_R5(fichero, html_crear):
+def salida_html_R5(fichero, html):
     """
     Genera la página web 4 (salidaR4_5.html) con el gráfico de líneas incorporado.
     leyendo los datos del fichero que le pasamos como parámetro.
     Para cada comunidad autónoma, se mostrará la suma de todas sus provincias por año y se insertará en una tabla.
     :param fichero: CSV a leer.
-    :param html_crear: HTML a crear.
+    :param html: HTML a crear.
     :return: None
     """
     # Leer el fichero CSV.
@@ -34,8 +34,8 @@ def salida_html_R5(fichero, html_crear):
     n_years = n_datos - 1  # 2017 a 2010 menos el título "Provincias".
 
     # Cogemos todos los diccionarios que vayamos a usar.
-    comunidades_autonomas = lc.leer_comunidades('./entradasUTF8/comunidadesAutonomas.htm')
-    provincias_ = lc.leer_provincias('./entradasUTF8/comunidadAutonoma-Provincia.htm')
+    comunidades_autonomas = lc.leer_comunidades(lc.COMUNIDADES_AUTONOMAS_PATH)
+    provincias_ = lc.leer_provincias(lc.COMUNIDADES_AUTONOMAS_PROVINCIAS_PATH)
     dict_resultados = lc.calcular_total_por_comunidad(provincias_, dict_r, n_years, datos_utiles)
     dict_medias_total = lc.calcular_media_comunidades(dict_resultados, n_years // 3)
     comunidades_mas_poblacion = lc.comunidades_con_mas_media(dict_medias_total, 10)
@@ -44,40 +44,27 @@ def salida_html_R5(fichero, html_crear):
     plt.figure("lineal")
     plt.title("Población total en 2010-2017 (CCAA)")
     anios = ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017']
-    X = np.arange(8)
+    X = np.arange(len(anios))
     plt.axis([0, len(anios), 1125000, 8750000])
 
     for comunidad in comunidades_mas_poblacion:
         # Le damos la vuelta porque mostraría de 2017 a 2010.
-        plt.plot(dict_resultados[comunidad][0:len(anios)][::-1], marker="o", label=comunidades_autonomas[comunidad])
+        plt.plot(dict_resultados[comunidad][len(anios)-1::-1], marker="o", label=comunidades_autonomas[comunidad])
 
     plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
 
     # Ajustar los límites del eje x y aplicar margen
     margen = 0.5  # 5% de margen
     plt.xlim(-margen, len(anios) - 1 + margen)
-
     plt.xticks(X, anios)
 
     # Guardar la figura con un buen espacio alrededor
-    plt.savefig("grafico.png", bbox_inches="tight")
-
-    with open(html_crear, "r") as html:
-        lines = html.readlines()
-
-    with open(html_crear, "w") as html:
-        for line in lines:
-            if line.strip() != ("<img src='../grafico.png' width='1000px' height='800px' alt='Gráfico de líneas' "
-                                "width='500' height='500'>"):
-                html.write(line)
-
-    with open(html_crear, "a") as html:
-        html.write("<img src='../grafico.png' width='1000px' height='800px' alt='Gráfico de líneas' width='500' "
-                   "height='500'>\n")
+    plt.savefig("./imagenes/R5.png", bbox_inches="tight")
+    lc.aniadir_imagen_a_html(html, "./imagenes/R5.png", "1000px", "80px", "Gráfico de líneas")
 
 
 def ejecutar_R5():
-    salida_html_R5('./salidas/r2.csv', './salidas/salidaR4.html')
+    salida_html_R5('./resultados/poblacionProvinciasHM2010-17-limpio.csv', './resultados/variacionComAutonomas.html')
 
 
 if __name__ == "__main__":
