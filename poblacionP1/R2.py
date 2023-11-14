@@ -8,10 +8,8 @@ indicando también los valores desagregados por sexos (de manera semejante a com
 en la siguiente figura). Las celdas deben tener el contenido centrado.
 """
 
-import csv
 import locale
 import funciones as lc
-from bs4 import BeautifulSoup
 
 locale.setlocale(locale.LC_ALL, '')
 

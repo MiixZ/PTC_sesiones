@@ -7,10 +7,6 @@ Variación relativa = (Población 2017 – Población 2016) * 100
                         ----------------------------------------
 """
 
-import csv
-import bs4
-import numpy as np
-import matplotlib as mpl
 import locale
 import funciones as lc
 
