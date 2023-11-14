@@ -1,0 +1,79 @@
+"""Usando Matplotlib, para las 10 comunidades elegidas en el punto R3 generar un gráfico de líneas que refleje la
+evolución de la población total de cada comunidad autónoma desde el año 2010 a 2017, salvar el gráfico a fichero e
+incorporarlo a la página web 3 del punto R4."""
+
+import locale
+import funciones as lc
+import numpy as np
+import matplotlib.pyplot as plt
+
+locale.setlocale(locale.LC_ALL, '')
+
+# Hay que usar diccionarios y numpy arrays. Prohibido
+# usar pandas y dataframe.
+
+CABECERA = ("Provincia;T2017;T2016;T2015;T2014;T2013;T2012;T2011;T2010;H2017;H2016;H2015;H2014;H2013;H2012;H2011"
+            ";H2010;M2017;M2016;M2015;M2014;M2013;M2012;M2011;M2010;\n")
+
+
+def salida_html_R5(fichero, html_crear):
+    """
+    Genera la página web 4 (salidaR4_5.html) con el gráfico de líneas incorporado.
+    leyendo los datos del fichero que le pasamos como parámetro.
+    Para cada comunidad autónoma, se mostrará la suma de todas sus provincias por año y se insertará en una tabla.
+    :param fichero: CSV a leer.
+    :param html_crear: HTML a crear.
+    :return: None
+    """
+    # Leer el fichero CSV.
+    dict_r = lc.dict_fichero_csv(fichero)
+    fila_1 = dict_r.__next__()  # Saltamos la primera fila (datos del total nacional que usamos para coger las cabeceras).
+
+    datos_utiles = [columna for columna in fila_1.keys() if columna != 'none']  # Cogemos los años.
+    n_datos = len(datos_utiles)
+    n_years = n_datos - 1  # 2017 a 2010 menos el título "Provincias".
+
+    # Cogemos todos los diccionarios que vayamos a usar.
+    comunidades_autonomas = lc.leer_comunidades('./entradasUTF8/comunidadesAutonomas.htm')
+    provincias_ = lc.leer_provincias('./entradasUTF8/comunidadAutonoma-Provincia.htm')
+    dict_resultados = lc.calcular_total_por_comunidad(provincias_, dict_r, n_years, datos_utiles)
+    dict_medias_total = lc.calcular_media_comunidades(dict_resultados, n_years // 3)
+    comunidades_mas_poblacion = lc.comunidades_con_mas_media(dict_medias_total, 10)
+
+    # Creamos el gráfico de líneas.
+    plt.figure("lineal")
+    plt.title("Población total en 2010-2017 (CCAA)")
+    anios = ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017']
+    X = np.arange(8)
+    plt.axis([0, len(anios), 1125000, 8750000])
+
+    for comunidad in comunidades_mas_poblacion:
+        plt.plot(dict_resultados[comunidad], marker="o", label=comunidades_autonomas[comunidad])
+
+    plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
+
+    # Ajustar los límites del eje x y aplicar margen
+    margen = 0.5  # 5% de margen
+    plt.xlim(-margen, len(anios) - 1 + margen)
+
+    plt.xticks(X, anios)
+
+    # Guardar la figura con un buen espacio alrededor
+    plt.savefig("grafico.png", bbox_inches="tight")
+
+    with open(html_crear, "r") as html:
+        lines = html.readlines()
+
+    with open(html_crear, "w") as html:
+        for line in lines:
+            if line.strip() != ("<img src='../grafico.png' width='1000px' height='800px' alt='Gráfico de líneas' "
+                                "width='500' height='500'>"):
+                html.write(line)
+
+    with open(html_crear, "a") as html:
+        html.write("<img src='../grafico.png' width='1000px' height='800px' alt='Gráfico de líneas' width='500' "
+                   "height='500'>\n")
+
+
+if __name__ == "__main__":
+    salida_html_R5('./salidas/r2.csv', './salidas/salidaR4.html')
