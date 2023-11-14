@@ -18,6 +18,21 @@ PIE_HTML = """
 """
 
 
+def estilo():
+    fileEstilo = open("resultados/estilo.css", "w", encoding="utf8")
+
+    estilo = """  table, th, td {
+                            border-collapse: collapse;    
+                            border:1px solid black;
+                            font-family: Arial, Helvetica, sans-serif;
+                            padding: 8px;
+                            text-align: center;
+                        }  """
+
+    fileEstilo.write(estilo)
+    fileEstilo.close()
+
+
 def limpiar_csv(fichero, fichero_nuevo, cabecera, primera_palabra, ultima_palabra):
     """
     Limpia un fichero CSV de datos no útiles.
@@ -97,7 +112,7 @@ def calcular_total_por_comunidad(dict_provincias, dict_datos, n_years, datos_uti
     z = 0
     for a_dict in dict_datos:
         cod_comunidad_autonoma_actual = dict_provincias[a_dict['Provincia'][:2]]['CODAUTO']
-        temp = np.zeros(n_years)
+        temp = np.zeros(n_years -1)
         for i in range(1, len(a_dict)):
             if a_dict[datos_utiles[i]] != '':
                 temp[i - 1] = round(float(a_dict[datos_utiles[i]]), 2)
@@ -280,3 +295,23 @@ def crear_tabla_comunidades(dict_comunidades, dict_resultados, n_years):
         p_poblacion += "</tr>\n"
 
     return p_poblacion
+
+
+def variacion_absoluta(dato1, dato2):
+    """
+    Calcula la variación absoluta entre dos años.
+    :param dato1: Dato del año 1.
+    :param dato2: Dato del año 2.
+    :return: Variación absoluta entre ambos años. Se devuelve el dato en formato float con dos decimales.
+    """
+    return locale.format_string('%.2f', (float(dato1) - float(dato2)), grouping=True)
+
+
+def variacion_relativa(dato1, dato2):
+    """
+    Calcula la variación relativa entre dos años.
+    :param dato1: Dato del año 1.
+    :param dato2: Dato del año 2.
+    :return: Variación relativa entre ambos años. Se devuelve el dato en formato float con dos decimales.
+    """
+    return locale.format_string('%.2f', (dato1 - dato2) / dato2 * 100, grouping=True)
