@@ -8,16 +8,19 @@ la entrada “programa” debe dar como salida [('a', 2), ('g', 1), ('m',1), ('o
 # -*- coding: utf-8 -*-
 
 def frecuencia_letras(frase):
-    frecuencias = {}
+    frecuencias = []
     for letra in frase:
         if letra.isalpha():
-            if letra in frecuencias:
-                frecuencias[letra] += 1
-            else:
-                frecuencias[letra] = 1
-    pares = list(frecuencias.items())
-    pares.sort()
-    return pares
+            encontrado = False
+            for i in range(len(frecuencias)):
+                if frecuencias[i][0] == letra:
+                    frecuencias[i] = (letra, frecuencias[i][1] + 1)
+                    encontrado = True
+                    break
+            if not encontrado:
+                frecuencias.append((letra, 1))
+    frecuencias.sort()
+    return frecuencias
 
 frase = input("Introduce una frase: ")
 resultado = frecuencia_letras(frase)
