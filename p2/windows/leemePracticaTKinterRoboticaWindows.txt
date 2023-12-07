@@ -1,0 +1,84 @@
+PTC. Práctica 2. Tkinter y Robótica.
+
+Para aquellos estudiantes que tengan problema en usar la máquina virtual con Ubuntu 20, pueden usar la versión para Windows a la hora de trabajar en casa pero la entrega final debe funcionar en Ubuntu 20. Al final del fichero se explica como adaptar la versión Windows a Ubuntu.
+
+Para poder trabajar en entorno Windows hay que hacer lo siguiente:
+
+1. Descargar de Prado Anaconda3 versión Windows e instalarlo.
+
+2. Descargar de Prado el fichero de instalación de CoppeliaSim para Windows e instalarlo:
+CoppeliaSim_Player_V4_4_0_rev0_Setup.exe
+
+3. Seguidamente bajarse de Prado el fichero comprimido 
+Practica evaluable 2.Tkinter_robotica_windows.zip
+
+la diferencia con Ubuntu está en que ahora se usan los ficheros remoteApi.dll, sim.py y simConst.py.
+El script de python en Windows para poder conectar con el simulador debe usar "import sim" y las funciones correspondientes serán "sim.funcion".
+
+3. Antes de ejecutar los ejemplos, es preciso instalar opencv-python en una versión concreta. 
+Para ello abrimos una consola de Anaconda Prompt (Anaconda 3 debe estar instalado previamente en Windows) y ponemos:
+
+pip install --user --upgrade pip
+pip install opencv-python==4.5.3.56
+
+después de esto el ejemplo de openCV debe funcionar: ejemploOpenCV.py.
+
+4. Luego ejecutad "CoppeliaSim" en windows, cargad la escena: "escenaLaser.ttt" pulsad el botón de start en el simulador y en un
+Spyder u otro editor de Python cargad "ejemploLaser_to_JSON.py" y ejecutad el script para comprobar que conecta con el simulador
+y lee correctamente los valores de laser a la vez que os permite mover el muñeco en la simulación.
+
+Con eso ya podéis realizar la práctica en windows pero antes de realizar la entrega tenéis que modificarla para que funcione en Ubuntu pues se corregirá usando la máquina virtual que usa Ubuntu 20. Además el examen de prácticas se realizará en los ordenadores de la ETSIIT que tienen la misma imagen con Ubuntu 20 y necesitaréis que funcione en Ubuntu para hacer más facilmente vuestro examen.
+
+
+Cómo módificar la versión Windows de vuestra práctica para que funcione en Ubuntu.
+
+Para que la versión Windows funciones en Ubuntu, en vez de importar "sim" hay que importar "vrep" en el script que conecta con el simulador.
+Lógicamente las funciones que empiecen por sim.funcion, en Ubuntu deberán ser vrep.funcion.
+
+Además, el día del examen necesitaréis los ficheros correctos de Ubuntu que están en el ejemplo suministrado para la versión Ubuntu:
+
+remoteApi.so, vrep.py, vrepConst.py. 
+
+Aunque os he proporcionado las mismas versiones de CoppeliaSim en ambos sistemas operativos, podría haber algún comportamiento diferente en el simulador. Por tanto, os aconsejo que antes de entregarlo lo probéis en algún laboratorio de la ETSIIT con la imagen de Ubuntu con dos objetivos:
+1. Comprobar que la adaptación a Ubuntu se ejecuta sin dar errores.
+2. Comprobar que todo funciona bien y que no se alteran los resultados de vuestra práctica.
+
+Una alternativa a los laboratorios de la ETSIIT es el servidor de imágenes virtuales, de modo que podéis usar la imagen "ptcvi" desde vuestra casa.
+Para ello seguid estas instrucciones:
+
+1. Subid a turing.ugr.es el fichero comprimido con tu práctica y debes almacenarlo en alguna carpeta de tu home de turing.ugr.es. Para ello se puede usar cualquier programa de SFTP como winSCP:
+
+https://winscp.net/eng/download.php
+
+y abrir una sesión de SFTP con turing.ugr.es usando tu usuario y contraseña para subir tu práctica. Otra opción es subirlo directamente desde cualquier aula de prácticas de la ETSIIT al home del estudiante en turing.ugr.es.
+
+
+2. Acceder al Servidor Virtual en http://turing.ugr.es desde vuestra casa
+
+Este servidor permite acceder a imágenes virtuales instaladas en la ETSIIT. Para usar el
+servidor es indispensable tener una cuenta de usuario en los servidores de la ETSIIT:
+• Los alumnos usarán la cuenta que usan en la aulas de prácticas, que coincide con el
+usuario y password del correo de la UGR.
+
+Además, debéis poner el código: ptcvi
+
+Luego, os pedirá la contraseña otra vez.
+
+Con eso el navegador carga la misma imagen que hay en la Escuela y os aparecerá en el escritorio un icono para acceder a vuestras unidades remotas en Turing y por tanto al fichero que subisteis en el punto anterior.
+
+Si tenéis agotada la cuota de turing.ugr.es, entonces debéis usar vuestra unidad drive de go.ugr.es para almacenar la práctica y acceder luego desde un navegador desde dentro de la máquina virtual remota. En este caso, si no os funciona la tecla @ tenéis que hacer lo siguiente: lanzar un terminal
+de linux en la máquina remota virtual y en el prompt aparecera:  aulas@aulas-VirtualBox:~$ y del prompt podéis copiar la @ y usarla donde sea preciso copiando y pegando.
+
+Os recuerdo que desde spyder si quereis acceder a vuestro home en turing la ubicación de la carpeta es:
+
+/media/sf_Home
+
+
+
+Para cualquier duda podéis escribid a: eaguirre@ugr.es
+
+
+Un saludo.
+--
+El profesor Eugenio Aguirre.
+
