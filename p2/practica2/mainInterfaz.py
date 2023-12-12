@@ -29,7 +29,7 @@ root.title("Práctica PTC Tkinter Robótica")  # título de la ventana
 # LABELS
 conexion = tk.Label(root, text="Es necesario conectar el simulador VREP")
 parametros = tk.Label(root, text="Parámetros")
-ficheros = tk.Label(root, text="Ficheros")
+ficheros = tk.Label(root, text="Ficheros para la captura")
 
 estado = tk.Label(root, text="Estado: No conectado a VREP")
 
