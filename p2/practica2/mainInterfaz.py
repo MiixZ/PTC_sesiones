@@ -8,6 +8,7 @@ import os
 
 # FUNCIONES
 def conectar():
+    global clientID
     # Iniciar la conexión con el simulador
     clientID = vrep.simxStart('127.0.0.1', 19999, True,
                               True, 5000, 5)
@@ -23,9 +24,26 @@ def conectar():
 
 
 def desconectar():
+    global clientID
+    # Detener la simulación
+    vrep.simxStopSimulation(clientID, vrep.simx_opmode_oneshot_wait)
+
+    # Cerrar la conexión con el simulador
+    vrep.simxFinish(clientID)
+    clientID = -1
+
+    # Actualizar la interfaz de usuario
     boton_conectar.config(state="normal")  # Habilita el botón Conectar
     boton_desconectar.config(state="disabled")  # Deshabilita el botón Desconectar
+    boton_capturar.config(state="disabled")  # Deshabilita el botón Capturar
+    boton_agrupar.config(state="disabled")  # Deshabilita el botón Agrupar
+    boton_extraer.config(state="disabled")  # Deshabilita el botón Extraer
+    boton_entrenar.config(state="disabled")  # Deshabilita el botón Entrenar
+    boton_predecir.config(state="disabled")  # Deshabilita el botón Predecir
     estado.config(text="Estado: No conectado a CoppeliaSim")
+
+    # Informar al usuario
+    messagebox.showinfo("Desconexión", "Se ha desconectado con CoppeliaSim.")
 
 
 def mostrar_parametros():
@@ -97,6 +115,48 @@ def capturar():
     # Ejecutar el script Capturar.py con el archivo seleccionado y los parámetros actuales.
     print("Archivo seleccionado: ", archivo_seleccionado)
 
+    # Habilita el botón de agrupar.
+    boton_agrupar.config(state="normal")
+
+
+def agrupar():
+    # Ejecutar el script Agrupar.py con los parámetros actuales.
+    print("Agrupar")
+
+    # Habilita el botón de extraer características.
+    boton_extraer.config(state="normal")
+
+
+def extraer():
+    # Ejecutar el script Extraer.py con los parámetros actuales.
+    print("Extraer")
+
+    # Habilita el botón de entrenar clasificador.
+    boton_entrenar.config(state="normal")
+
+
+def entrenar():
+    # Ejecutar el script Entrenar.py con los parámetros actuales.
+    print("Entrenar")
+
+    # Habilita el botón de predecir.
+    boton_predecir.config(state="normal")
+
+
+def predecir():
+    # Ejecutar el script Predecir.py con los parámetros actuales.
+    print("Predecir")
+
+
+def salir():
+    # Comprobar el estado de la conexión
+    if clientID != -1:
+        # Si estás conectado al simulador, mostrar una advertencia
+        messagebox.showwarning("Advertencia", "Antes de salir debe desconectar.")
+    else:
+        # Si no estás conectado al simulador, salir de la aplicación
+        root.destroy()
+
 
 # VENTANA PRINCIPAL
 root = tk.Tk()  # crea la ventana principal
@@ -104,6 +164,7 @@ root = tk.Tk()  # crea la ventana principal
 # VARIABLES
 conectado = False
 width_box = 5
+global clientID
 
 # COLUMNAS USADAS DE 0 a 3, FILAS DE 0 a 9
 root.geometry("700x300")  # anchura x altura
@@ -131,11 +192,11 @@ boton_desconectar = tk.Button(root, text="Detener y desconectar CoppeliaSim", co
 boton_desconectar.grid(row=2, column=0)  # Ajusta la fila y columna según sea necesario
 
 boton_capturar = tk.Button(root, text="Capturar", command=capturar, state="disabled")
-boton_agrupar = tk.Button(root, text="Agrupar", command=desconectar, state="disabled")
-boton_extraer = tk.Button(root, text="Extraer características", command=desconectar, state="disabled")
-boton_entrenar = tk.Button(root, text="Entrenar clasificador", command=desconectar, state="disabled")
-boton_predecir = tk.Button(root, text="Predecir", command=desconectar, state="disabled")
-boton_salir = tk.Button(root, text="Salir", command=root.destroy)
+boton_agrupar = tk.Button(root, text="Agrupar", command=agrupar, state="disabled")
+boton_extraer = tk.Button(root, text="Extraer características", command=extraer, state="disabled")
+boton_entrenar = tk.Button(root, text="Entrenar clasificador", command=entrenar, state="disabled")
+boton_predecir = tk.Button(root, text="Predecir", command=predecir, state="disabled")
+boton_salir = tk.Button(root, text="Salir", command=salir)
 
 boton_capturar.grid(row=4, column=0)
 boton_agrupar.grid(row=5, column=0)
