@@ -3,7 +3,7 @@
     Leemos datos de laser, los mostramos con matplot y los salvamos a un fichero JSON
     Importante: La escena tiene que estar ejecutándose en el simulador (Usar botón PLAY)
 """
-import vrep
+import sim as vrep
 import sys
 import cv2
 import numpy as np
@@ -21,7 +21,7 @@ if clientID!=-1:
     print ('Conexion establecida')
 else:
     sys.exit("Error: no se puede conectar. Tienes que iniciar la simulación antes de llamar a este script.") #Terminar este script
- 
+
 #Guardar la referencia al robot
 
 _, robothandle = vrep.simxGetObjectHandle(clientID, 'Pioneer_p3dx', vrep.simx_opmode_oneshot_wait)

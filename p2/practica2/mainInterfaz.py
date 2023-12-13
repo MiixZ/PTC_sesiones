@@ -4,6 +4,7 @@ from tkinter import messagebox
 import parametros as p
 import sim as vrep  # Al final cambiarlo por import vrep
 import os
+import Capturar
 
 
 # FUNCIONES
@@ -108,15 +109,21 @@ def capturar():
     if not respuesta:
         return
     else:
-        # Crear el archivo
-        with open(archivo_seleccionado, 'w') as f:
-            f.close()
+        # Llamar al script Capturar.py con el archivo seleccionado y los parámetros actuales
+        Capturar.main(archivo_seleccionado)
 
     # Ejecutar el script Capturar.py con el archivo seleccionado y los parámetros actuales.
     print("Archivo seleccionado: ", archivo_seleccionado)
 
-    # Habilita el botón de agrupar.
-    boton_agrupar.config(state="normal")
+    # Volver al directorio padre
+    os.chdir("..")
+
+    # Habilitamos el botón de agrupar si existen los 12 directorios, de positivo1 a 6 y negativo1 a 6
+    if (os.path.isdir("positivo1") and os.path.isdir("positivo2") and os.path.isdir("positivo3") and
+            os.path.isdir("positivo4") and os.path.isdir("positivo5") and os.path.isdir("positivo6") and
+            os.path.isdir("negativo1") and os.path.isdir("negativo2") and os.path.isdir("negativo3") and
+            os.path.isdir("negativo4") and os.path.isdir("negativo5") and os.path.isdir("negativo6")):
+        boton_agrupar.config(state="normal")
 
 
 def agrupar():
@@ -176,6 +183,8 @@ parametros = tk.Label(root, text="Parámetros")
 ficheros = tk.Label(root, text="Ficheros para la captura")
 
 estado = tk.Label(root, text="Estado: No conectado a CoppeliaSim")
+
+clientID = -1
 
 # GRID PARA LABELS
 conexion.grid(row=0, column=0)
