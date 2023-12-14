@@ -40,12 +40,20 @@ def main(file_path):
     # Obtener el handler de la persona
     if "enPie" in fichero:
         nombre = 'Bill#0'
+        y = 0
+        z = 0
     elif "sentado" in fichero:
         nombre = 'Bill'
+        y = 0
+        z = 0
     elif "cilindroMenor" in fichero:
         nombre = 'Cylinder'
+        y = 0
+        z = 0.25
     else:
-        nombre = 'Cylinder1'
+        nombre = 'Cylinder2'
+        y = 0
+        z = 0.25
 
     _, objeto = vrep.simxGetObjectHandle(clientID, nombre, vrep.simx_opmode_oneshot_wait)
 
@@ -79,11 +87,11 @@ def main(file_path):
         minimo = p.lejos
         maximo = p.lejos + 1
 
+    orientacion_inicial = random.uniform(-math.pi, math.pi)
+
     while i <= p.iteracciones and seguir:
         # Genera dos números aleatorios entre p.cerca y p.media para las coordenadas x e y
         x = random.uniform(minimo, maximo)
-        z = 0.0
-        y = -0.4
 
         # Calcula la nueva posición de la persona
         nueva_posicion = [x, y, z]
@@ -91,11 +99,11 @@ def main(file_path):
         # Mueve a la persona a la nueva posición
         returnCode = vrep.simxSetObjectPosition(clientID, objeto, -1, nueva_posicion, vrep.simx_opmode_oneshot)
 
-        # Genera un número aleatorio entre 0 y 2π
-        orientacion = random.uniform(0, 2 * math.pi)
+        # Genera un número aleatorio entre -π y π
+        cambio_orientacion = random.uniform(-math.pi, math.pi)
 
         # Cambiamos la orientación, ojo está en radianes
-        returnCode = vrep.simxSetObjectOrientation(clientID, objeto, -1, [0.0, 0.0, orientacion],
+        returnCode = vrep.simxSetObjectOrientation(clientID, objeto, -1, [0.0, 0.0, cambio_orientacion],
                                                    vrep.simx_opmode_oneshot)
 
         time.sleep(tiempo_espera)
@@ -120,8 +128,6 @@ def main(file_path):
 
         if i == 1 or i == p.iteracciones:
             plt.savefig('Plot' + str(i - 1) + '.jpg')
-
-        plt.show()
 
         print("Iteración: ", i)
 

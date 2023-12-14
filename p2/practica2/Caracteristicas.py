@@ -31,7 +31,10 @@ def distancia_punto_linea(punto, linea):
     numerador = abs((p2[1] - p1[1]) * punto[0] - (p2[0] - p1[0]) * punto[1] + p2[0] * p1[1] - p2[1] * p1[0])
     denominador = np.sqrt((p2[1] - p1[1]) ** 2 + (p2[0] - p1[0]) ** 2)
 
-    return numerador / denominador
+    if denominador == 0:
+        return 0  # or any other value that makes sense in your case
+    else:
+        return numerador / denominador
 
 
 def calcular_profundidad(cluster):
