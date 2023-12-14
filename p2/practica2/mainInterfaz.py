@@ -5,6 +5,7 @@ import parametros as p
 import sim as vrep  # Al final cambiarlo por import vrep
 import os
 import Capturar
+import Agrupar
 
 
 # FUNCIONES
@@ -128,7 +129,7 @@ def capturar():
 
 def agrupar():
     # Ejecutar el script Agrupar.py con los parámetros actuales.
-    print("Agrupar")
+    Agrupar.main()
 
     # Habilita el botón de extraer características.
     boton_extraer.config(state="normal")
