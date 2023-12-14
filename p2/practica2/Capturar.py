@@ -42,18 +42,22 @@ def main(file_path):
         nombre = 'Bill#0'
         y = 0
         z = 0
+        ficheroTTT = "enPie.ttt"
     elif "sentado" in fichero:
         nombre = 'Bill'
         y = 0
         z = 0
+        ficheroTTT = "sentado.ttt"
     elif "cilindroMenor" in fichero:
-        nombre = 'Cylinder'
+        nombre = 'Cylinder0'
         y = 0
         z = 0.25
+        ficheroTTT = "cilindroMenor.ttt"
     else:
-        nombre = 'Cylinder2'
+        nombre = 'Cylinder6'
         y = 0
         z = 0.25
+        ficheroTTT = "cilindroMayor.ttt"
 
     _, objeto = vrep.simxGetObjectHandle(clientID, nombre, vrep.simx_opmode_oneshot_wait)
 
@@ -86,8 +90,6 @@ def main(file_path):
     else:
         minimo = p.lejos
         maximo = p.lejos + 1
-
-    orientacion_inicial = random.uniform(-math.pi, math.pi)
 
     while i <= p.iteracciones and seguir:
         # Genera dos números aleatorios entre p.cerca y p.media para las coordenadas x e y
@@ -164,3 +166,10 @@ def main(file_path):
 
     f_json.write(json.dumps(finFichero) + '\n')
     f_json.close()
+
+    # Volver al directorio padre
+    os.chdir("..")
+
+    # Copiamos el fichero ttt correspondiente en el directorio
+    # os.system("cp " + ficheroTTT + " " + directorio)  # Linux
+    os.system("copy " + ficheroTTT + " " + directorio)  # Windows
