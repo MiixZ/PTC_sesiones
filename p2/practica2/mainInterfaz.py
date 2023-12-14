@@ -6,6 +6,7 @@ import sim as vrep  # Al final cambiarlo por import vrep
 import os
 import Capturar
 import Agrupar
+import Caracteristicas
 
 
 # FUNCIONES
@@ -136,8 +137,8 @@ def agrupar():
 
 
 def extraer():
-    # Ejecutar el script Extraer.py con los parámetros actuales.
-    print("Extraer")
+    # Ejecutar el script Caracteristicas.py con los parámetros actuales.
+    Caracteristicas.main()
 
     # Habilita el botón de entrenar clasificador.
     boton_entrenar.config(state="normal")
