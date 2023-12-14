@@ -79,10 +79,6 @@ def main(file_path):
         minimo = p.lejos
         maximo = p.lejos + 1
 
-    print("estoy en: " + os.getcwd())
-    print("minimo: " + str(minimo))
-    print("maximo: " + str(maximo))
-
     while i <= p.iteracciones and seguir:
         # Genera dos números aleatorios entre p.cerca y p.media para las coordenadas x e y
         x = random.uniform(minimo, maximo)
