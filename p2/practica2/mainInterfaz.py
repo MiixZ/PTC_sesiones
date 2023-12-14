@@ -7,6 +7,7 @@ import os
 import Capturar
 import Agrupar
 import Caracteristicas
+import Entrenar
 
 
 # FUNCIONES
@@ -117,9 +118,6 @@ def capturar():
     # Ejecutar el script Capturar.py con el archivo seleccionado y los parámetros actuales.
     print("Archivo seleccionado: ", archivo_seleccionado)
 
-    # Volver al directorio padre
-    os.chdir("..")
-
     # Habilitamos el botón de agrupar si existen los 12 directorios, de positivo1 a 6 y negativo1 a 6
     if (os.path.isdir("positivo1") and os.path.isdir("positivo2") and os.path.isdir("positivo3") and
             os.path.isdir("positivo4") and os.path.isdir("positivo5") and os.path.isdir("positivo6") and
@@ -146,7 +144,7 @@ def extraer():
 
 def entrenar():
     # Ejecutar el script Entrenar.py con los parámetros actuales.
-    print("Entrenar")
+    Entrenar.main()
 
     # Habilita el botón de predecir.
     boton_predecir.config(state="normal")
