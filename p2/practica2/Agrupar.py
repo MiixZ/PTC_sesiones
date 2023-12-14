@@ -6,26 +6,6 @@ import glob
 import sys
 import parametros as p
 
-# VARIABLES
-listaPos = sorted(glob.glob("positivo*"))
-listaNeg = sorted(glob.glob("negativo*"))
-numPos = len(listaPos)
-numNeg = len(listaNeg)
-nombresjson = [
-    "enPieCerca.json",
-    "enPieMedia.json",
-    "enPieLejos.json",
-    "sentadoCerca.json",
-    "sentadoMedia.json",
-    "sentadoLejos.json",
-    "cilindroMenorCerca.json",
-    "cilindroMenorMedia.json",
-    "cilindroMenorLejos.json",
-    "cilindroMayorCerca.json",
-    "cilindroMayorMedia.json",
-    "cilindroMayorLejos.json"
-]
-
 
 # FUNCIONES
 def distancia(punto1, punto2):
@@ -60,6 +40,26 @@ def main():
 
     if os.path.exists("clustersNoPiernas.json"):
         os.remove("clustersNoPiernas.json")
+
+    # VARIABLES
+    listaPos = sorted(glob.glob("positivo*"))
+    listaNeg = sorted(glob.glob("negativo*"))
+    numPos = len(listaPos)
+    numNeg = len(listaNeg)
+    nombresjson = [
+        "enPieCerca.json",
+        "enPieMedia.json",
+        "enPieLejos.json",
+        "sentadoCerca.json",
+        "sentadoMedia.json",
+        "sentadoLejos.json",
+        "cilindroMenorCerca.json",
+        "cilindroMenorMedia.json",
+        "cilindroMenorLejos.json",
+        "cilindroMayorCerca.json",
+        "cilindroMayorMedia.json",
+        "cilindroMayorLejos.json"
+    ]
 
     if numPos > 0:
         print("Numero de directorios con lecturas positivas: ", numPos)
