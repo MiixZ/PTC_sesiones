@@ -95,6 +95,9 @@ def main(file_path):
         # Genera dos números aleatorios entre p.cerca y p.media para las coordenadas x e y
         x = random.uniform(minimo, maximo)
 
+        cateto_opuesto = (math.tan(math.pi / 4) * x)
+        y = random.uniform(-cateto_opuesto, cateto_opuesto)
+
         # Calcula la nueva posición de la persona
         nueva_posicion = [x, y, z]
 
@@ -126,12 +129,10 @@ def main(file_path):
 
         # Guardamos los datos de la camara
         plt.clf()
-        plt.plot(puntos_x, puntos_y, 'ro')
+        plt.plot(puntos_x, puntos_y, 'r.')
 
         if i == 1 or i == p.iteracciones:
             plt.savefig('Plot' + str(i - 1) + '.jpg')
-
-        print("Iteración: ", i)
 
         lectura = {
             "Iteracion": i,

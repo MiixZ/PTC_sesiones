@@ -8,6 +8,7 @@ import Capturar
 import Agrupar
 import Caracteristicas
 import Entrenar
+import Predecir
 
 
 # FUNCIONES
@@ -152,7 +153,28 @@ def entrenar():
 
 def predecir():
     # Ejecutar el script Predecir.py con los parámetros actuales.
-    print("Predecir")
+    Predecir.main()
+
+
+def debug():
+    global debug_mode
+    debug_mode = not debug_mode
+    if debug_mode:
+        # Habilita todos los botones
+        boton_desconectar.config(state="normal")
+        boton_capturar.config(state="normal")
+        boton_agrupar.config(state="normal")
+        boton_extraer.config(state="normal")
+        boton_entrenar.config(state="normal")
+        boton_predecir.config(state="normal")
+    else:
+        # Deshabilita todos los botones excepto el de salir
+        boton_desconectar.config(state="disabled")
+        boton_capturar.config(state="disabled")
+        boton_agrupar.config(state="disabled")
+        boton_extraer.config(state="disabled")
+        boton_entrenar.config(state="disabled")
+        boton_predecir.config(state="disabled")
 
 
 def salir():
@@ -172,9 +194,10 @@ root = tk.Tk()  # crea la ventana principal
 conectado = False
 width_box = 5
 global clientID
+debug_mode = False
 
 # COLUMNAS USADAS DE 0 a 3, FILAS DE 0 a 9
-root.geometry("700x300")  # anchura x altura
+root.geometry("700x350")  # anchura x altura
 root.title("Práctica PTC Tkinter Robótica")  # título de la ventana
 
 # LABELS
@@ -206,6 +229,7 @@ boton_extraer = tk.Button(root, text="Extraer características", command=extraer
 boton_entrenar = tk.Button(root, text="Entrenar clasificador", command=entrenar, state="disabled")
 boton_predecir = tk.Button(root, text="Predecir", command=predecir, state="disabled")
 boton_salir = tk.Button(root, text="Salir", command=salir)
+boton_debug = tk.Button(root, text="Debug", command=debug)
 
 boton_capturar.grid(row=4, column=0)
 boton_agrupar.grid(row=5, column=0)
@@ -213,6 +237,7 @@ boton_extraer.grid(row=6, column=0)
 boton_entrenar.grid(row=7, column=0)
 boton_predecir.grid(row=8, column=0)
 boton_salir.grid(row=9, column=0)
+boton_debug.grid(row=10, column=0)
 
 # LABELS y BOTON PARA LA COLUMNA 1
 label_texts = ["Iteraciones: ", "Cerca: ", "Media: ", "Lejos: ", "MinPuntos: ", "MaxPuntos: ", "UmbralDistancia: "]

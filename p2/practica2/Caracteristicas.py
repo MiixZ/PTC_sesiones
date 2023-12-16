@@ -26,22 +26,19 @@ def calcular_anchura(cluster):
     return distancia_euclidea(p1, p2)
 
 
-def distancia_punto_linea(punto, linea):
-    p1, p2 = linea
-    numerador = abs((p2[1] - p1[1]) * punto[0] - (p2[0] - p1[0]) * punto[1] + p2[0] * p1[1] - p2[1] * p1[0])
-    denominador = np.sqrt((p2[1] - p1[1]) ** 2 + (p2[0] - p1[0]) ** 2)
-
-    if denominador == 0:
-        return 0  # or any other value that makes sense in your case
-    else:
-        return numerador / denominador
-
-
 def calcular_profundidad(cluster):
-    linea = [[cluster["puntosX"][0], cluster["puntosY"][0]], [cluster["puntosX"][-1], cluster["puntosY"][-1]]]
-    profundidad = max(distancia_punto_linea([cluster["puntosX"][i], cluster["puntosY"][i]], linea) for i in
-                      range(cluster["numero_puntos"]))
-    return profundidad
+    p1 = [cluster["puntosX"][0], cluster["puntosY"][0]]
+    p2 = [cluster["puntosX"][-1], cluster["puntosY"][-1]]
+    profundidades = []
+    for i in range(cluster["numero_puntos"]):
+        punto = [cluster["puntosX"][i], cluster["puntosY"][i]]
+        numerador = abs((p2[1] - p1[1]) * punto[0] - (p2[0] - p1[0]) * punto[1] + p2[0] * p1[1] - p2[1] * p1[0])
+        denominador = np.sqrt((p2[1] - p1[1]) ** 2 + (p2[0] - p1[0]) ** 2)
+        if denominador == 0:
+            profundidades.append(0)
+        else:
+            profundidades.append(numerador / denominador)
+    return max(profundidades)
 
 
 # MAIN
@@ -66,28 +63,26 @@ def main():
 
     # Calcular las características y guardarlas en nuevos ficheros
     with open('caracteristicasPiernas.dat', 'w') as f:
-        for clusters in clusters_piernas:
-            for cluster in clusters:
-                caracteristicas = {
-                    "numero_cluster": cluster["numero_cluster"],
-                    "perimetro": calcular_perimetro(cluster),
-                    "profundidad": calcular_profundidad(cluster),
-                    "anchura": calcular_anchura(cluster),
-                    "esPierna": 1  # Verdadero para los clústeres de piernas
-                }
-                f.write(json.dumps(caracteristicas) + '\n')
+        for cluster in clusters_piernas:
+            caracteristicas = {
+                "numero_cluster": cluster["numero_cluster"],
+                "perimetro": calcular_perimetro(cluster),
+                "profundidad": calcular_profundidad(cluster),
+                "anchura": calcular_anchura(cluster),
+                "esPierna": 1  # Verdadero para los clústeres de piernas
+            }
+            f.write(json.dumps(caracteristicas) + '\n')
 
     with open('caracteristicasNoPiernas.dat', 'w') as f:
-        for clusters in clusters_no_piernas:
-            for cluster in clusters:
-                caracteristicas = {
-                    "numero_cluster": cluster["numero_cluster"],
-                    "perimetro": calcular_perimetro(cluster),
-                    "profundidad": calcular_profundidad(cluster),
-                    "anchura": calcular_anchura(cluster),
-                    "esPierna": 0  # Falso para los clústeres de no piernas
-                }
-                f.write(json.dumps(caracteristicas) + '\n')
+        for cluster in clusters_no_piernas:
+            caracteristicas = {
+                "numero_cluster": cluster["numero_cluster"],
+                "perimetro": calcular_perimetro(cluster),
+                "profundidad": calcular_profundidad(cluster),
+                "anchura": calcular_anchura(cluster),
+                "esPierna": 0  # Falso para los clústeres de no piernas
+            }
+            f.write(json.dumps(caracteristicas) + '\n')
 
     # Leer los ficheros de características
     with open('caracteristicasPiernas.dat', 'r') as f:

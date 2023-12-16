@@ -71,6 +71,7 @@ def main():
     else:
         sys.exit("Error, no hay directorios con lecturas negativas")
 
+    n_cluster = 0
     for index, positivo in enumerate(listaPos):
         objetos = []
         fichero_actual = positivo + "/" + nombresjson[index]
@@ -99,11 +100,9 @@ def main():
 
         # Para cada iteración, agrupamos los puntos y los guardamos en un fichero JSON
         for i in range(iterTotales):
-            iteracion = objetos[i + 1]['Iteracion']
             puntosX = objetos[i + 1]['PuntosX']
             puntosY = objetos[i + 1]['PuntosY']
 
-            print("Iteración: ", iteracion)
             plt.clf()
             plt.plot(puntosX, puntosY, 'r.')
 
@@ -114,18 +113,25 @@ def main():
             clusters = agrupar_puntos(puntos)
 
             for cluster_idx in range(len(clusters)):
+                # Si el cluster está vacío, no lo guardamos y lo borramos
+                if len(clusters[cluster_idx]) == 0:
+                    clusters.pop(cluster_idx)
+                    continue
                 clusters[cluster_idx] = {
-                    "numero_cluster": cluster_idx,
+                    "numero_cluster": n_cluster,
                     "numero_puntos": len(clusters[cluster_idx]),
                     "puntosX": [punto[0] for punto in clusters[cluster_idx]],
                     "puntosY": [punto[1] for punto in clusters[cluster_idx]]
                 }
+                n_cluster += 1
 
             with open("clustersPiernas.json", "a") as f:
-                f.write(json.dumps(clusters) + '\n')
+                for cluster in clusters:
+                    f.write(json.dumps(cluster) + '\n')
 
             # plt.show()
 
+    n_cluster = 0
     # Hacemos lo propio con los ejemplos negativos
     for index, negativo in enumerate(listaNeg):
         objetos = []
@@ -155,11 +161,9 @@ def main():
 
         # Para cada iteración, agrupamos los puntos y los guardamos en un fichero JSON
         for i in range(iterTotales):
-            iteracion = objetos[i + 1]['Iteracion']
             puntosX = objetos[i + 1]['PuntosX']
             puntosY = objetos[i + 1]['PuntosY']
 
-            print("Iteración: ", iteracion)
             plt.clf()
             plt.plot(puntosX, puntosY, 'r.')
 
@@ -170,14 +174,19 @@ def main():
             clusters = agrupar_puntos(puntos)
 
             for cluster_idx in range(len(clusters)):
+                if len(clusters[cluster_idx]) == 0:
+                    clusters.pop(cluster_idx)
+                    continue
                 clusters[cluster_idx] = {
-                    "numero_cluster": cluster_idx,
+                    "numero_cluster": n_cluster,
                     "numero_puntos": len(clusters[cluster_idx]),
                     "puntosX": [punto[0] for punto in clusters[cluster_idx]],
                     "puntosY": [punto[1] for punto in clusters[cluster_idx]]
                 }
+                n_cluster += 1
 
             with open("clustersNoPiernas.json", "a") as f:
-                f.write(json.dumps(clusters) + '\n')
+                for cluster in clusters:
+                    f.write(json.dumps(cluster) + '\n')
 
             # plt.show()
