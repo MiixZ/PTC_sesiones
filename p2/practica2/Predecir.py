@@ -14,6 +14,31 @@ clientID = 0  # Identificador de la conexión con el simulador
 
 
 # FUNCIONES
+def distancia_entre_clusters(cluster1, cluster2):
+    min_dist = 100000
+    for i in range(cluster1["numero_puntos"]):
+        for j in range(cluster2["numero_puntos"]):
+            p1 = [cluster1["puntosX"][i], cluster1["puntosY"][i]]
+            p2 = [cluster2["puntosX"][j], cluster2["puntosY"][j]]
+            dist = Caracteristicas.distancia_euclidea(p1, p2)
+            if dist < min_dist:
+                min_dist = dist
+
+    return min_dist
+
+
+def punto_medio_clusteres(cluster1, cluster2):
+    x1 = np.mean(cluster1["puntosX"])
+    y1 = np.mean(cluster1["puntosY"])
+    x2 = np.mean(cluster2["puntosX"])
+    y2 = np.mean(cluster2["puntosY"])
+
+    punto_medio_x = (x1 + x2) / 2
+    punto_medio_y = (y1 + y2) / 2
+
+    return [punto_medio_x, punto_medio_y]
+
+
 def main():
     n_cluster = 0
     # Si no existe el directorio /prediccion, lo creamos
@@ -111,6 +136,16 @@ def main():
 
         for j in range(len(puntos_cluster[0])):
             plt.plot(puntos_cluster[0][j], puntos_cluster[1][j], color)
+
+        # Comprobamos la distancia con los otros clústeres
+        for k in range(i + 1, len(df)):
+            cluster2 = clusters[k]
+            puntos_cluster2 = [cluster2["puntosX"], cluster2["puntosY"]]
+            dist = distancia_entre_clusters(clusters[i], cluster2)
+            if dist < 0.2:
+                # Calculamos el punto medio y lo pintamos en verde
+                punto_medio = punto_medio_clusteres(clusters[i], cluster2)
+                plt.plot(punto_medio[0], punto_medio[1], 'g.')
 
     # Guardamos la imagen como predecir.jpg
     plt.savefig("predecir.jpg")
