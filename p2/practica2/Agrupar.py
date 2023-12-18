@@ -1,5 +1,4 @@
 import math
-import matplotlib.pyplot as plt
 import json
 import os
 import glob
@@ -95,16 +94,10 @@ def main():
         iterTotalesDict = objetos[len(objetos) - 1]
         iterTotales = iterTotalesDict['Iteraciones totales']
 
-        plt.axis('equal')
-        plt.axis([0, 4, -2, 2])
-
         # Para cada iteración, agrupamos los puntos y los guardamos en un fichero JSON
         for i in range(iterTotales):
             puntosX = objetos[i + 1]['PuntosX']
             puntosY = objetos[i + 1]['PuntosY']
-
-            plt.clf()
-            plt.plot(puntosX, puntosY, 'r.')
 
             puntos = []
             for idx in range(len(puntosX)):
@@ -113,10 +106,6 @@ def main():
             clusters = agrupar_puntos(puntos)
 
             for cluster_idx in range(len(clusters)):
-                # Si el cluster está vacío, no lo guardamos y lo borramos
-                if len(clusters[cluster_idx]) == 0:
-                    clusters.pop(cluster_idx)
-                    continue
                 clusters[cluster_idx] = {
                     "numero_cluster": n_cluster,
                     "numero_puntos": len(clusters[cluster_idx]),
@@ -128,8 +117,6 @@ def main():
             with open("clustersPiernas.json", "a") as f:
                 for cluster in clusters:
                     f.write(json.dumps(cluster) + '\n')
-
-            # plt.show()
 
     n_cluster = 0
     # Hacemos lo propio con los ejemplos negativos
@@ -156,16 +143,10 @@ def main():
         iterTotalesDict = objetos[len(objetos) - 1]
         iterTotales = iterTotalesDict['Iteraciones totales']
 
-        plt.axis('equal')
-        plt.axis([0, 4, -2, 2])
-
         # Para cada iteración, agrupamos los puntos y los guardamos en un fichero JSON
         for i in range(iterTotales):
             puntosX = objetos[i + 1]['PuntosX']
             puntosY = objetos[i + 1]['PuntosY']
-
-            plt.clf()
-            plt.plot(puntosX, puntosY, 'r.')
 
             puntos = []
             for idx in range(len(puntosX)):
@@ -174,9 +155,6 @@ def main():
             clusters = agrupar_puntos(puntos)
 
             for cluster_idx in range(len(clusters)):
-                if len(clusters[cluster_idx]) == 0:
-                    clusters.pop(cluster_idx)
-                    continue
                 clusters[cluster_idx] = {
                     "numero_cluster": n_cluster,
                     "numero_puntos": len(clusters[cluster_idx]),
@@ -188,5 +166,3 @@ def main():
             with open("clustersNoPiernas.json", "a") as f:
                 for cluster in clusters:
                     f.write(json.dumps(cluster) + '\n')
-
-            # plt.show()

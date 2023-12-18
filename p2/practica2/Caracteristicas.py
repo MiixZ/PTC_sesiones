@@ -1,3 +1,4 @@
+import math
 import os
 
 import numpy as np
@@ -6,7 +7,7 @@ import csv
 
 
 def distancia_euclidea(p1, p2):
-    return np.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
+    return math.sqrt((p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2)
 
 
 def calcular_perimetro(cluster):
@@ -32,12 +33,13 @@ def calcular_profundidad(cluster):
     profundidades = []
     for i in range(cluster["numero_puntos"]):
         punto = [cluster["puntosX"][i], cluster["puntosY"][i]]
-        numerador = abs((p2[1] - p1[1]) * punto[0] - (p2[0] - p1[0]) * punto[1] + p2[0] * p1[1] - p2[1] * p1[0])
-        denominador = np.sqrt((p2[1] - p1[1]) ** 2 + (p2[0] - p1[0]) ** 2)
+        numerador = abs((p2[1] - p1[1]) * punto[0] - (p2[0] - p1[0]) * punto[1] + (p2[0] * p1[1] - p2[1] * p1[0]))
+        denominador = math.sqrt((p2[1] - p1[1]) ** 2 + (p2[0] - p1[0]) ** 2)
         if denominador == 0:
             profundidades.append(0)
         else:
             profundidades.append(numerador / denominador)
+
     return max(profundidades)
 
 

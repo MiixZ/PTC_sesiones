@@ -93,9 +93,9 @@ def main(file_path):
 
     while i <= p.iteracciones and seguir:
         # Genera dos números aleatorios entre p.cerca y p.media para las coordenadas x e y
-        x = random.uniform(minimo, maximo)
+        x = minimo + (maximo - minimo) * (i - 1) / (p.iteracciones - 1)
 
-        cateto_opuesto = (math.tan(math.pi / 4) * x)
+        cateto_opuesto = (math.tan(math.pi / 6) * x)
         y = random.uniform(-cateto_opuesto, cateto_opuesto)
 
         # Calcula la nueva posición de la persona
@@ -108,7 +108,7 @@ def main(file_path):
         cambio_orientacion = random.uniform(-math.pi, math.pi)
 
         # Cambiamos la orientación, ojo está en radianes
-        returnCode = vrep.simxSetObjectOrientation(clientID, objeto, -1, [0.0, 0.0, cambio_orientacion],
+        returnCode = vrep.simxSetObjectOrientation(clientID, objeto, -1, [0.0, 0.0, 3.05 - (0.20) * i],
                                                    vrep.simx_opmode_oneshot)
 
         time.sleep(tiempo_espera)

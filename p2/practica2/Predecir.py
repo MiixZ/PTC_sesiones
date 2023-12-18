@@ -20,10 +20,6 @@ def main():
     if not os.path.exists("prediccion"):
         os.mkdir("prediccion")
 
-    # Si existe el fichero clustersPrediccion.json, lo borramos
-    if os.path.exists("prediccion/clustersPrediccion.json"):
-        os.remove("prediccion/clustersPrediccion.json")
-
     # Nos colocamos en el directorio /prediccion
     os.chdir("prediccion")
 
@@ -75,18 +71,18 @@ def main():
         }
         n_cluster += 1
 
-    with open("clustersPrediccion.json", "a") as f:
-        for cluster in clusters:
-            f.write(json.dumps(cluster) + '\n')
-
     # Creamos un np array donde guardamos el número de cluster y sus características
     caracteristicas = np.zeros((len(clusters), 3))
 
+    i = 0
     for cluster in clusters:
         print("Cluster: ", cluster["numero_cluster"], cluster)
-        caracteristicas[cluster["numero_cluster"] - 1][0] = Caracteristicas.calcular_perimetro(cluster)
-        caracteristicas[cluster["numero_cluster"] - 1][1] = Caracteristicas.calcular_profundidad(cluster)
-        caracteristicas[cluster["numero_cluster"] - 1][2] = Caracteristicas.calcular_anchura(cluster)
+        perimetro = Caracteristicas.calcular_perimetro(cluster)
+        profundidad = Caracteristicas.calcular_profundidad(cluster)
+        anchura = Caracteristicas.calcular_anchura(cluster)
+
+        caracteristicas[i] = [perimetro, profundidad, anchura]
+        i += 1
 
     # Usamos el predictor que tenemos en ../clasificador.pkl para cada cluster a partir de sus características.
     # Dibujamos en rojo los clusters que son piernas y en azul los que no.
@@ -103,15 +99,18 @@ def main():
     # Dibujamos los clusters. En rojo los que son piernas y en azul los que no.
     plt.clf()
     plt.axis('tight')
-    plt.axis([1, 3.4, -2.4, 2.4])
+    plt.axis([1, 3.3, -2.15, 2.15])
 
     for i in range(len(df)):
         print("Cluster: ", i, df.loc[i, 'clase'])
         puntos_cluster = [clusters[i]["puntosX"], clusters[i]["puntosY"]]
-        if df.loc[i, 'clase'] == 1:
-            plt.plot(puntos_cluster[0], puntos_cluster[1], 'r.')
+        if y_pred[i] == 1:
+            color = 'r.'        # Si es una pierna, en rojo
         else:
-            plt.plot(puntos_cluster[0], puntos_cluster[1], 'b.')
+            color = 'b.'        # Si no es una pierna, en azul
+
+        for j in range(len(puntos_cluster[0])):
+            plt.plot(puntos_cluster[0][j], puntos_cluster[1][j], color)
 
     # Guardamos la imagen como predecir.jpg
     plt.savefig("predecir.jpg")
