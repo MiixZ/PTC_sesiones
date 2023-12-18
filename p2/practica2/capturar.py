@@ -91,12 +91,20 @@ def main(file_path):
         minimo = p.lejos
         maximo = p.lejos + 1
 
+    iteracion = 1
+    primera_mitad = 1
+    segunda_mitad = 1
     while i <= p.iteracciones and seguir:
-        # Genera dos números aleatorios entre p.cerca y p.media para las coordenadas x e y
-        x = minimo + (maximo - minimo) * (i - 1) / (p.iteracciones - 1)
-
-        cateto_opuesto = (math.tan(math.pi / 6) * x)
-        y = random.uniform(-cateto_opuesto, cateto_opuesto)
+        if i <= p.iteracciones / 2:
+            x = minimo + (maximo - minimo) * (primera_mitad - 1) / (p.iteracciones / 2 - 1)
+            cateto_opuesto = (math.tan(math.pi / 6) * x)
+            y = -cateto_opuesto + (2 * cateto_opuesto) * i / (p.iteracciones / 2)
+            primera_mitad += 1
+        else:
+            x = minimo + (maximo - minimo) * (segunda_mitad - 1) / (p.iteracciones / 2 - 1)
+            cateto_opuesto = (math.tan(math.pi / 6) * x)
+            y = cateto_opuesto - (2 * cateto_opuesto) * (i - p.iteracciones / 2) / (p.iteracciones / 2)
+            segunda_mitad += 1
 
         # Calcula la nueva posición de la persona
         nueva_posicion = [x, y, z]

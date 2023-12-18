@@ -6,7 +6,7 @@ import sim as vrep  # Al final cambiarlo por import vrep
 import time
 import numpy as np
 import agrupar
-import caracteristicas
+import caracteristicas as car
 import pandas as pd
 
 # VARIABLES
@@ -20,7 +20,7 @@ def distancia_entre_clusters(cluster1, cluster2):
         for j in range(cluster2["numero_puntos"]):
             p1 = [cluster1["puntosX"][i], cluster1["puntosY"][i]]
             p2 = [cluster2["puntosX"][j], cluster2["puntosY"][j]]
-            dist = Caracteristicas.distancia_euclidea(p1, p2)
+            dist = car.distancia_euclidea(p1, p2)
             if dist < min_dist:
                 min_dist = dist
 
@@ -101,10 +101,9 @@ def main():
 
     i = 0
     for cluster in clusters:
-        print("Cluster: ", cluster["numero_cluster"], cluster)
-        perimetro = Caracteristicas.calcular_perimetro(cluster)
-        profundidad = Caracteristicas.calcular_profundidad(cluster)
-        anchura = Caracteristicas.calcular_anchura(cluster)
+        perimetro = car.calcular_perimetro(cluster)
+        profundidad = car.calcular_profundidad(cluster)
+        anchura = car.calcular_anchura(cluster)
 
         caracteristicas[i] = [perimetro, profundidad, anchura]
         i += 1
@@ -121,13 +120,16 @@ def main():
     df = pd.DataFrame(caracteristicas, columns=['perimetro', 'profundidad', 'anchura'])
     df['clase'] = y_pred
 
+    # Mostramos los resultados de la predicción
+    print("Predicción: ")
+    print(y_pred)
+
     # Dibujamos los clusters. En rojo los que son piernas y en azul los que no.
     plt.clf()
     plt.axis('tight')
     plt.axis([1, 3.3, -2.15, 2.15])
 
     for i in range(len(df)):
-        print("Cluster: ", i, df.loc[i, 'clase'])
         puntos_cluster = [clusters[i]["puntosX"], clusters[i]["puntosY"]]
         if y_pred[i] == 1:
             color = 'r.'        # Si es una pierna, en rojo

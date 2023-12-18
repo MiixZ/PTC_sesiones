@@ -80,7 +80,7 @@ def cambiar():
     mostrar_parametros()
 
 
-def capturar():
+def capturar_():
     # Comprobar si se ha seleccionado un archivo
     seleccion = ficheros.curselection()
     if not seleccion:  # Si la tupla está vacía
@@ -114,7 +114,7 @@ def capturar():
         return
     else:
         # Llamar al script capturar.py con el archivo seleccionado y los parámetros actuales
-        Capturar.main(archivo_seleccionado)
+        capturar.main(archivo_seleccionado)
 
     # Ejecutar el script capturar.py con el archivo seleccionado y los parámetros actuales.
     print("Archivo seleccionado: ", archivo_seleccionado)
@@ -127,9 +127,9 @@ def capturar():
         boton_agrupar.config(state="normal")
 
 
-def agrupar():
+def agrupar_():
     # Ejecutar el script agrupar.py con los parámetros actuales.
-    Agrupar.main()
+    agrupar.main()
 
     # Habilita el botón de extraer características.
     boton_extraer.config(state="normal")
@@ -137,7 +137,7 @@ def agrupar():
 
 def extraer():
     # Ejecutar el script caracteristicas.py con los parámetros actuales.
-    Caracteristicas.main()
+    caracteristicas.main()
 
     # Habilita el botón de entrenar clasificador.
     boton_entrenar.config(state="normal")
@@ -145,13 +145,13 @@ def extraer():
 
 def entrenar():
     # Ejecutar el script clasificarSVM.py con los parámetros actuales.
-    Entrenar.main()
+    clasificarSVM.main()
 
     # Habilita el botón de predecir.
     boton_predecir.config(state="normal")
 
 
-def predecir():
+def predecir_():
     # Ejecutar el script predecir.py con los parámetros actuales.
     predecir.main()
 
@@ -223,11 +223,11 @@ boton_conectar.grid(row=1, column=0)  # Ajusta la fila y columna según sea nece
 boton_desconectar = tk.Button(root, text="Detener y desconectar CoppeliaSim", command=desconectar, state="disabled")
 boton_desconectar.grid(row=2, column=0)  # Ajusta la fila y columna según sea necesario
 
-boton_capturar = tk.Button(root, text="Capturar", command=capturar, state="disabled")
-boton_agrupar = tk.Button(root, text="Agrupar", command=agrupar, state="disabled")
+boton_capturar = tk.Button(root, text="Capturar", command=capturar_, state="disabled")
+boton_agrupar = tk.Button(root, text="Agrupar", command=agrupar_, state="disabled")
 boton_extraer = tk.Button(root, text="Extraer características", command=extraer, state="disabled")
 boton_entrenar = tk.Button(root, text="Entrenar clasificador", command=entrenar, state="disabled")
-boton_predecir = tk.Button(root, text="Predecir", command=predecir, state="disabled")
+boton_predecir = tk.Button(root, text="Predecir", command=predecir_, state="disabled")
 boton_salir = tk.Button(root, text="Salir", command=salir)
 boton_debug = tk.Button(root, text="Debug", command=debug)
 

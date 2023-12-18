@@ -56,7 +56,7 @@ def main():
     # Definir los parámetros para la búsqueda en cuadrícula
     param_grid = {
                     'C': [1, 10, 100, 1000],
-                    'gamma': [0.001, 0.005, 0.01, 0.1]
+                    'gamma': [0.001, 0.005, 0.01, 0.1, 1, 10, 100, 500, 1000]
                  }
 
     # Elegimos el kernel rbf
@@ -80,7 +80,7 @@ def main():
 
     # Cross validation
     print("Cross validation:")
-    svc2 = SVC(kernel=best_kernel)
+    svc2 = SVC(kernel=best_kernel, C=best_SVC.C, gamma=best_SVC.gamma, class_weight="balanced")
     scores = cross_val_score(svc2, X, y, cv=5)
 
     print("Scores 5-cross validation: %0.4f (+/- %0.4f)" % (scores.mean(), scores.std() * 2))
