@@ -4,11 +4,11 @@ from tkinter import messagebox
 import parametros as p
 import sim as vrep  # Al final cambiarlo por import vrep
 import os
-import Capturar
-import Agrupar
-import Caracteristicas
-import Entrenar
-import Predecir
+import capturar
+import agrupar
+import caracteristicas
+import clasificarSVM
+import predecir
 
 
 # FUNCIONES
@@ -113,10 +113,10 @@ def capturar():
     if not respuesta:
         return
     else:
-        # Llamar al script Capturar.py con el archivo seleccionado y los parámetros actuales
+        # Llamar al script capturar.py con el archivo seleccionado y los parámetros actuales
         Capturar.main(archivo_seleccionado)
 
-    # Ejecutar el script Capturar.py con el archivo seleccionado y los parámetros actuales.
+    # Ejecutar el script capturar.py con el archivo seleccionado y los parámetros actuales.
     print("Archivo seleccionado: ", archivo_seleccionado)
 
     # Habilitamos el botón de agrupar si existen los 12 directorios, de positivo1 a 6 y negativo1 a 6
@@ -128,7 +128,7 @@ def capturar():
 
 
 def agrupar():
-    # Ejecutar el script Agrupar.py con los parámetros actuales.
+    # Ejecutar el script agrupar.py con los parámetros actuales.
     Agrupar.main()
 
     # Habilita el botón de extraer características.
@@ -136,7 +136,7 @@ def agrupar():
 
 
 def extraer():
-    # Ejecutar el script Caracteristicas.py con los parámetros actuales.
+    # Ejecutar el script caracteristicas.py con los parámetros actuales.
     Caracteristicas.main()
 
     # Habilita el botón de entrenar clasificador.
@@ -144,7 +144,7 @@ def extraer():
 
 
 def entrenar():
-    # Ejecutar el script Entrenar.py con los parámetros actuales.
+    # Ejecutar el script clasificarSVM.py con los parámetros actuales.
     Entrenar.main()
 
     # Habilita el botón de predecir.
@@ -152,8 +152,8 @@ def entrenar():
 
 
 def predecir():
-    # Ejecutar el script Predecir.py con los parámetros actuales.
-    Predecir.main()
+    # Ejecutar el script predecir.py con los parámetros actuales.
+    predecir.main()
 
 
 def debug():

@@ -5,8 +5,8 @@ from matplotlib import pyplot as plt
 import sim as vrep  # Al final cambiarlo por import vrep
 import time
 import numpy as np
-import Agrupar
-import Caracteristicas
+import agrupar
+import caracteristicas
 import pandas as pd
 
 # VARIABLES
@@ -85,7 +85,7 @@ def main():
     for i in range(len(puntos_x)):
         points_cluster.append([puntos_x[i], puntos_y[i]])
 
-    clusters = Agrupar.agrupar_puntos(points_cluster)
+    clusters = agrupar.agrupar_puntos(points_cluster)
 
     for cluster_idx in range(len(clusters)):
         clusters[cluster_idx] = {
